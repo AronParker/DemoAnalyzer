@@ -10,6 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="5"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
@@ -29,24 +30,31 @@
             <MenuItem Header="_Window" />
             <MenuItem Header="_Help" />
         </Menu>
-        <Viewbox Grid.Row="1" Stretch="Uniform">
-            <Grid>
-                <Image x:Name="image" Source="C:\Users\Aron\source\repos\DemoAnalyzer\DemoAnalyzer\assets\de_dust2_radar.dds" Stretch="Uniform"/>
-                <Canvas x:Name="canvas">
-                </Canvas>
-            </Grid>
-            
-        </Viewbox>
-        <Grid Grid.Row="2">
+
+        <local:Minimap x:Name="minimap" Grid.Row="1"/>
+
+        <!--<Viewbox Grid.Row="1" Stretch="Uniform">
+            <Canvas x:Name="canvas" Width="1024" Height="1024">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="assets/de_dust2_radar_spectate.dds"/>
+                </Canvas.Background>
+            </Canvas>
+        </Viewbox>-->
+
+        <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        
+        <Grid Grid.Row="3">
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Slider Grid.Row="0" Margin="10"/>
-            <StackPanel Orientation="Horizontal" Grid.Row="1">
-                <Button Content="Play" FontSize="20" Margin="5" Padding="5"/>
-                <Button Content="Stop" FontSize="20" Margin="5" Padding="5"/>
-            </StackPanel>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <!--<ColumnDefinition Width="Auto"/>-->
+            </Grid.ColumnDefinitions>
+
+            <Slider Grid.Row="1" Margin="10"/>
         </Grid>
         
     </Grid>
