@@ -52,8 +52,15 @@ namespace DemoAnalyzer
                     }
 
                     _state.Parse(parser);
+
+                    timeline.Init(_state.MinTick, _state.MaxTick);
                 }
             }
+        }
+
+        private void timeline_PlaybackPositionChanged(object sender, EventArgs e)
+        {
+            minimap.SetPlayers(_state.ReadPlayerStates(timeline.PlaybackPosition));
         }
     }
 }

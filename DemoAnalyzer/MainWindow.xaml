@@ -11,7 +11,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="5"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
         <Menu IsMainMenu="True" Grid.Row="0">
@@ -33,20 +33,11 @@
 
         <local:Minimap x:Name="minimap" Grid.Row="1"/>
 
-        <!--<Viewbox Grid.Row="1" Stretch="Uniform">
-            <Canvas x:Name="canvas" Width="1024" Height="1024">
-                <Canvas.Background>
-                    <ImageBrush ImageSource="assets/de_dust2_radar_spectate.dds"/>
-                </Canvas.Background>
-            </Canvas>
-        </Viewbox>-->
-
         <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         
         <Grid Grid.Row="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -54,7 +45,7 @@
                 <!--<ColumnDefinition Width="Auto"/>-->
             </Grid.ColumnDefinitions>
 
-            <Slider Grid.Row="1" Margin="10"/>
+            <local:Timeline x:Name="timeline" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" PlaybackPositionChanged="timeline_PlaybackPositionChanged"/>
         </Grid>
         
     </Grid>

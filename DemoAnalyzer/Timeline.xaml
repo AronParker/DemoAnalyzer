@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:DemoAnalyzer"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+    <Canvas x:Name="canvas" Background="DarkSlateGray">
+        <Line Visibility="Hidden" x:Name="hover" StrokeThickness="2" Stroke="DarkRed"/>
+        <Line Visibility="Hidden" x:Name="playback" StrokeThickness="2" Stroke="Green"/>
+        <Rectangle Visibility="Hidden" x:Name="selection" Stroke="Orange" StrokeThickness="2" Fill="DarkOrange" Opacity=".5" Canvas.Left="100" Canvas.Top="100" Height="100" Width="100"/>
+    </Canvas>
 </UserControl>
