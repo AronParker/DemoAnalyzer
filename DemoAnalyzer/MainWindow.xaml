@@ -31,9 +31,23 @@
             <MenuItem Header="_Help" />
         </Menu>
 
-        <local:Minimap x:Name="minimap" Grid.Row="1"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <ListView Grid.Column="0" Background="Black"/>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#444"/>
+            <local:Minimap x:Name="minimap" Grid.Column="2"/>
+            <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#444"/>
+
+        </Grid>
+
+        <GridSplitter Grid.Row="2" Background="#444" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         
         <Grid Grid.Row="3">
             <Grid.RowDefinitions>

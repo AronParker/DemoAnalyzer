@@ -134,6 +134,21 @@ namespace DemoAnalyzer
                 playback.X1 = canvasPosition;
                 playback.X2 = canvasPosition;
 
+                if (selection.Visibility == Visibility.Visible)
+                {
+                    var start = Math.Min(_selectionStart, _selectionEnd);
+                    var end = Math.Max(_selectionStart, _selectionEnd);
+
+                    var startCanvasPosition = TickToCanvasPosition(start);
+                    var endCanvasPosition = TickToCanvasPosition(end);
+
+                    selection.Visibility = Visibility.Visible;
+                    Canvas.SetLeft(selection, startCanvasPosition);
+                    Canvas.SetTop(selection, 0);
+                    selection.Width = endCanvasPosition - startCanvasPosition;
+                    selection.Height = canvas.ActualHeight;
+                }
+
                 RepositionRounds(true, false);
             }
 
@@ -144,6 +159,12 @@ namespace DemoAnalyzer
 
                 hover.Y1 = 0;
                 hover.Y2 = canvas.ActualHeight;
+
+                if (selection.Visibility == Visibility.Visible)
+                {
+                    Canvas.SetTop(selection, 0);
+                    selection.Height = canvas.ActualHeight;
+                }
 
                 RepositionRounds(false, true);
             }
