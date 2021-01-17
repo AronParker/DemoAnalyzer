@@ -11,18 +11,31 @@ namespace DemoAnalyzer
     public class DemoState
     {
         private Dictionary<Player, PlayerData> _dict = new Dictionary<Player, PlayerData>();
+        private List<RoundData> _rounds = new List<RoundData>();
+        private int _lastRoundStart;
         public int MinTick => _dict.Min(x => x.Value.IngameTicks.First());
         public int MaxTick => _dict.Max(x => x.Value.IngameTicks.Last());
+        public IReadOnlyList<RoundData> Rounds => _rounds;
 
         public void Parse(DemoParser parser)
         {
-            parser.PlayerDisconnect += (s2, e2) =>
+            parser.PlayerDisconnect += (sender, e) =>
             {
-                if (_dict.TryGetValue(e2.Player, out var data))
+                if (_dict.TryGetValue(e.Player, out var data))
                 {
                     data.IngameTicks.Add(parser.IngameTick);
                     data.States.Add(new PlayerState { IsConnected = false });
                 }
+            };
+
+            parser.RoundStart += (sender, e) =>
+            {
+                _lastRoundStart = parser.IngameTick;
+            };
+
+            parser.RoundEnd += (sender, e) =>
+            {
+                _rounds.Add(new RoundData { Start = _lastRoundStart, End = parser.IngameTick });
             };
 
             try
@@ -90,7 +103,11 @@ namespace DemoAnalyzer
             yield break;
         }
 
-
+        public struct RoundData
+        {
+            public int Start;
+            public int End;
+        }
 
         public struct PlayerState : IEquatable<PlayerState>
         {

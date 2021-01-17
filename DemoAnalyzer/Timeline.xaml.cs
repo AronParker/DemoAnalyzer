@@ -26,6 +26,9 @@ namespace DemoAnalyzer
         private int _selectionStart = 0;
         private int _selectionEnd = 0;
 
+        private DemoState.RoundData[] _rounds;
+        private Line[] _lines;
+
         public int MinTick => _minTick;
         public int MaxTick => _maxTick;
 
@@ -58,7 +61,7 @@ namespace DemoAnalyzer
             InitializeComponent();
         }
 
-        public void Init(int minTick, int maxTick)
+        public void Init(int minTick, int maxTick, IReadOnlyList<DemoState.RoundData> rounds)
         {
             _minTick = minTick;
             _maxTick = maxTick;
@@ -68,7 +71,42 @@ namespace DemoAnalyzer
             playback.X1 = 0;
             playback.X2 = 0;
 
+            _rounds = rounds.ToArray();
+            _lines = rounds.Select(x =>
+            {
+                var line = new Line();
+                line.Stroke = Brushes.Gray;
+                line.StrokeThickness = 2;
+                canvas.Children.Insert(0, line);
+                return line;
+            }).ToArray();
+
+            RepositionRounds(true, true);            
+
             PlaybackPositionChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void RepositionRounds(bool widthChanged, bool heightChanged)
+        {
+            if (_rounds == null)
+                return;
+
+            for (int i = 0; i < _rounds.Length; i++)
+            {
+                if (widthChanged)
+                {
+                    var position = TickToCanvasPosition(_rounds[i].Start);
+
+                    _lines[i].X1 = position;
+                    _lines[i].X2 = position;
+                }
+
+                if (heightChanged)
+                {
+                    _lines[i].Y1 = 0;
+                    _lines[i].Y2 = canvas.ActualHeight;
+                }
+            }
         }
 
         public void Deinit()
@@ -79,6 +117,10 @@ namespace DemoAnalyzer
             hover.Visibility = Visibility.Hidden;
             playback.Visibility = Visibility.Hidden;
             selection.Visibility = Visibility.Hidden;
+
+            canvas.Children.RemoveRange(0, _lines.Length);
+            _rounds = null;
+            _lines = null;
         }
 
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
@@ -91,6 +133,8 @@ namespace DemoAnalyzer
 
                 playback.X1 = canvasPosition;
                 playback.X2 = canvasPosition;
+
+                RepositionRounds(true, false);
             }
 
             if (sizeInfo.HeightChanged)
@@ -100,7 +144,11 @@ namespace DemoAnalyzer
 
                 hover.Y1 = 0;
                 hover.Y2 = canvas.ActualHeight;
+
+                RepositionRounds(false, true);
             }
+
+            
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

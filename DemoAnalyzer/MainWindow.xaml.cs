@@ -53,7 +53,7 @@ namespace DemoAnalyzer
 
                     _state.Parse(parser);
 
-                    timeline.Init(_state.MinTick, _state.MaxTick);
+                    timeline.Init(_state.MinTick, _state.MaxTick, _state.Rounds);
                 }
             }
         }
