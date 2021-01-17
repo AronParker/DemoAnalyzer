@@ -10,5 +10,6 @@
         <Line Visibility="Hidden" x:Name="hover" StrokeThickness="2" Stroke="DarkRed"/>
         <Line Visibility="Hidden" x:Name="playback" StrokeThickness="2" Stroke="Green"/>
         <Rectangle Visibility="Hidden" x:Name="selection" Stroke="Orange" StrokeThickness="2" Fill="DarkOrange" Opacity=".5" Canvas.Left="100" Canvas.Top="100" Height="100" Width="100"/>
+        <TextBlock Visibility="Hidden" x:Name="hoverInfo" FontSize="15" Foreground="White">test</TextBlock>
     </Canvas>
 </UserControl>

@@ -176,6 +176,15 @@ namespace DemoAnalyzer
             e.MouseDevice.Capture(this);
         }
 
+        private int GetRound(int tick)
+        {
+            for (int i = 0; i < _rounds.Length; i++)
+                if (tick >= _rounds[i].Start && tick <= _rounds[i].End)
+                    return i;
+            
+            return -1;
+        }
+
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
@@ -185,6 +194,17 @@ namespace DemoAnalyzer
 
             var tickByPosition = MousePositionToTick(e);
             var canvasPosition = TickToCanvasPosition(tickByPosition);
+
+            hoverInfo.Visibility = Visibility.Visible;
+
+            var round = GetRound(tickByPosition);
+
+            if (round == -1)
+                hoverInfo.Text = $"Tick {tickByPosition}";
+            else
+                hoverInfo.Text = $"Tick {tickByPosition}, Round {round + 1}";
+
+            Canvas.SetLeft(hoverInfo, canvasPosition);
 
             if (e.LeftButton == MouseButtonState.Pressed)
             {
@@ -226,6 +246,8 @@ namespace DemoAnalyzer
                 hover.X1 = canvasPosition;
                 hover.X2 = canvasPosition;
             }
+
+
         }
 
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
@@ -240,6 +262,7 @@ namespace DemoAnalyzer
             base.OnMouseLeave(e);
 
             hover.Visibility = Visibility.Hidden;
+            hoverInfo.Visibility = Visibility.Hidden;
         }
 
         private int MousePositionToTick(MouseEventArgs e)
