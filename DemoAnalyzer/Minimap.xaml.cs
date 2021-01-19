@@ -94,14 +94,14 @@ namespace DemoAnalyzer
             return true;
         }
 
-        public void SetPlayers(IEnumerable<KeyValuePair<Player, PlayerState>> players)
+        public void SetPlayers(IEnumerable<PlayerInfo> players)
         {
             var i = 0;
 
             foreach (var player in players)
             {
                 var info = GetRenderInfo(i++);
-                var state = player.Value;
+                var state = player.State;
                 var playerPos = WorldSpaceToScreenSpace(new System.Windows.Vector(state.PositionX, state.PositionY));
 
                 if (state.IsAlive)

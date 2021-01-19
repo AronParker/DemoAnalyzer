@@ -8,6 +8,15 @@ using System.Threading.Tasks;
 
 namespace DemoAnalyzer
 {
+    public struct PlayerInfo
+    {
+        public Player Player;
+        public DemoState.PlayerState State;
+
+        public string Name => Player.Name;
+        public Team Team => State.IsTerrorist ? Team.Terrorist : Team.CounterTerrorist;
+    }
+
     public class DemoState
     {
         private Dictionary<Player, PlayerData> _dict = new Dictionary<Player, PlayerData>();
@@ -84,7 +93,7 @@ namespace DemoAnalyzer
             }
         }
 
-        public IEnumerable<KeyValuePair<Player, PlayerState>> ReadPlayerStates(int tick)
+        public IEnumerable<PlayerInfo> ReadPlayerStates(int tick)
         {
             foreach (var kvp in _dict)
             {
@@ -105,7 +114,7 @@ namespace DemoAnalyzer
                 if (!state.IsConnected)
                     continue;
 
-                yield return new KeyValuePair<Player, PlayerState>(kvp.Key, state);
+                yield return new PlayerInfo { Player = kvp.Key, State = state };
             }
 
             yield break;
