@@ -11,8 +11,10 @@ namespace DemoAnalyzer
     public class DemoState
     {
         private Dictionary<Player, PlayerData> _dict = new Dictionary<Player, PlayerData>();
+        private PlayerKillData _playerKillData = new PlayerKillData();
         private List<RoundData> _rounds = new List<RoundData>();
         private int _lastRoundStart;
+
         public int MinTick => _dict.Min(x => x.Value.IngameTicks.First());
         public int MaxTick => _dict.Max(x => x.Value.IngameTicks.Last());
         public IReadOnlyList<RoundData> Rounds => _rounds;
@@ -31,6 +33,12 @@ namespace DemoAnalyzer
             parser.RoundStart += (sender, e) =>
             {
                 _lastRoundStart = parser.IngameTick;
+            };
+
+            parser.PlayerKilled += (sender, e) =>
+            {
+                _playerKillData.IngameTicks.Add(parser.IngameTick);
+                _playerKillData.Kills.Add(e);
             };
 
             parser.RoundEnd += (sender, e) =>
@@ -142,10 +150,16 @@ namespace DemoAnalyzer
             }
         }
 
+        public class PlayerKillData
+        {
+            public List<int> IngameTicks { get; } = new List<int>();
+            public List<PlayerKilledEventArgs> Kills { get; } = new List<PlayerKilledEventArgs>();
+        }
+
         public class PlayerData
         {
-            public List<PlayerState> States { get; } = new List<PlayerState>();
             public List<int> IngameTicks { get; } = new List<int>();
+            public List<PlayerState> States { get; } = new List<PlayerState>();
         }
     }
 }
