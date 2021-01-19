@@ -15,6 +15,7 @@ namespace DemoAnalyzer
 
         public string Name => Player.Name;
         public Team Team => State.IsTerrorist ? Team.Terrorist : Team.CounterTerrorist;
+        public bool IsDead => !State.IsAlive;
     }
 
     public class DemoState

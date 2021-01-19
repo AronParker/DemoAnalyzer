@@ -218,7 +218,7 @@ namespace DemoAnalyzer
         {
             //$"pack://application:,,,/DemoAnalyzer;component/assets/{mapName}_radar_spectate.dds"
 
-            var uri = new Uri($"assets/{mapName}_radar_spectate.dds", UriKind.Relative);
+            var uri = new Uri($"assets/minimaps/{mapName}_radar_spectate.dds", UriKind.Relative);
             return new ImageBrush(new BitmapImage(uri));
         }
 

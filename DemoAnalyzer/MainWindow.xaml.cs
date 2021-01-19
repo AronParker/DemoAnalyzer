@@ -37,9 +37,9 @@ namespace DemoAnalyzer
                         switch (team)
                         {
                             case Team.Terrorist:
-                                return Brushes.DarkRed;
+                                return Brushes.IndianRed;
                             case Team.CounterTerrorist:
-                                return Brushes.DarkBlue;
+                                return Brushes.MediumSlateBlue;
                             default:
                                 throw new Exception("Unsupported team");
                         }
@@ -49,7 +49,7 @@ namespace DemoAnalyzer
                         switch (team)
                         {
                             case Team.Terrorist:
-                                return Brushes.IndianRed;
+                                return Brushes.LightPink;
                             case Team.CounterTerrorist:
                                 return Brushes.LightBlue;
                             default:

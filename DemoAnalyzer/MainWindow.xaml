@@ -9,6 +9,7 @@
 
     <Window.Resources>
         <local:TeamToColorConverter x:Key="test"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
     
     <Grid>
@@ -49,7 +50,8 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock FontSize="14" Foreground="{Binding Team, Converter={StaticResource test}, ConverterParameter=body}" Text="{Binding Name}" Margin="5,0,0,0" />
+                            <TextBlock VerticalAlignment="Center" FontSize="14" Foreground="{Binding Team, Converter={StaticResource test}, ConverterParameter=body}" Text="{Binding Name}" Margin="5,0,5,0" />
+                            <Image Stretch="Uniform" Height="14" Source="assets/deathnotice/icon-suicide.png" Visibility="{Binding IsDead, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
