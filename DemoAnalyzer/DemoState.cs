@@ -18,6 +18,7 @@ namespace DemoAnalyzer
         public bool IsDead => !State.IsAlive;
     }
 
+
     public class DemoState
     {
         private Dictionary<Player, PlayerData> _dict = new Dictionary<Player, PlayerData>();
@@ -25,12 +26,18 @@ namespace DemoAnalyzer
         private List<RoundData> _rounds = new List<RoundData>();
         private int _lastRoundStart;
 
+        // TODO implement correctly other potential ticks that might be even lower than player data
         public int MinTick => _dict.Min(x => x.Value.IngameTicks.First());
         public int MaxTick => _dict.Max(x => x.Value.IngameTicks.Last());
         public IReadOnlyList<RoundData> Rounds => _rounds;
 
         public void Parse(DemoParser parser)
         {
+            _dict.Clear();
+            _playerKillData.IngameTicks.Clear();
+            _playerKillData.Kills.Clear();
+            _rounds.Clear();
+
             parser.PlayerDisconnect += (sender, e) =>
             {
                 if (_dict.TryGetValue(e.Player, out var data))
@@ -119,6 +126,27 @@ namespace DemoAnalyzer
             }
 
             yield break;
+        }
+
+        public IEnumerable<PlayerKilledEventArgs> ReadRecentKills(int tick, int kills = 5)
+        {
+            var idx = _playerKillData.IngameTicks.BinarySearch(tick);
+
+            if (idx < 0)
+            {
+                idx = ~idx;
+
+                if (idx == 0)
+                    yield break;
+
+                idx--;
+            }
+
+            var lastIndexInclusive = idx;
+            var firstIndexInclusive = Math.Max(lastIndexInclusive - kills + 1, 0);
+
+            for (int i = firstIndexInclusive; i <= lastIndexInclusive; i++)
+                yield return _playerKillData.Kills[i];
         }
 
         public struct RoundData

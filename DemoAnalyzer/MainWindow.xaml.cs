@@ -81,7 +81,7 @@ namespace DemoAnalyzer
         public MainWindow()
         {
             InitializeComponent();
-
+            
             playersLV.ItemsSource = _playerInfos;
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(playersLV.ItemsSource);
@@ -122,7 +122,7 @@ namespace DemoAnalyzer
                 _playerInfos.Add(p);
             
             minimap.SetPlayers(_playerInfos);
-
+            killfeed.SetKills(_state.ReadRecentKills(timeline.PlaybackPosition));
         }
     }
 }
