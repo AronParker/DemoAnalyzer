@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DemoAnalyzer.Data;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,7 +20,7 @@ namespace DemoAnalyzer
         private double _minimapPosY;
         private double _minimapScale;
 
-        private List<PlayerRenderInfo> _renderInfos = new List<PlayerRenderInfo>();
+        private Dictionary<int, PlayerRenderInfo> _renderInfos = new Dictionary<int, PlayerRenderInfo>();
 
         static Minimap()
         {
@@ -84,108 +85,125 @@ namespace DemoAnalyzer
             return true;
         }
 
-        public void SetPlayers(IEnumerable<PlayerInfo> players)
+        public void BeginUpdate()
         {
-            var i = 0;
-
-            foreach (var player in players)
-            {
-                var info = GetRenderInfo(i++);
-                var state = player.State;
-                var playerPos = WorldSpaceToScreenSpace(new System.Windows.Vector(state.PositionX, state.PositionY));
-
-                if (state.IsAlive)
-                {
-                    info.PlayerPos.Visibility = Visibility.Visible;
-                    info.PlayerSight.Visibility = Visibility.Visible;
-                    info.DeathPos.Visibility = Visibility.Hidden;
-
-                    info.PlayerPos.Fill = state.IsTerrorist ? Brushes.IndianRed : Brushes.DodgerBlue;
-                    info.PlayerPos.Stroke = state.IsTerrorist ? Brushes.DarkRed : Brushes.DarkBlue;
-
-                    Canvas.SetLeft(info.PlayerPos, playerPos.X - 15 / 2);
-                    Canvas.SetTop(info.PlayerPos, playerPos.Y - 15 / 2);
-
-                    var left = playerPos + CreateVectorFromRotation(128, state.ViewDirectionX - 45f);
-                    var right = playerPos + CreateVectorFromRotation(128, state.ViewDirectionX + 45f);
-                    var center = (left + right) / 2;
-
-                    info.playerSightBrush.StartPoint = new Point(playerPos.X, playerPos.Y);
-                    info.playerSightBrush.EndPoint = new Point(center.X, center.Y);
-
-                    info.PlayerSight.Points[0] = new Point(playerPos.X, playerPos.Y);
-                    info.PlayerSight.Points[1] = new Point(left.X, left.Y);
-                    info.PlayerSight.Points[2] = new Point(right.X, right.Y);
-                }
-                else
-                {
-                    info.PlayerPos.Visibility = Visibility.Hidden;
-                    info.PlayerSight.Visibility = Visibility.Hidden;
-                    info.DeathPos.Visibility = Visibility.Visible;
-
-                    info.DeathPos.Fill = state.IsTerrorist ? Brushes.IndianRed : Brushes.DodgerBlue;
-                    info.DeathPos.Stroke = state.IsTerrorist ? Brushes.DarkRed : Brushes.DarkBlue;
-
-                    Canvas.SetLeft(info.DeathPos, playerPos.X);
-                    Canvas.SetTop(info.DeathPos, playerPos.Y);
-                }
-            }
-
-            if (i < _renderInfos.Count)
-                RemoveUnusedRenderInfos(i);
+            ResetUsedRenderInfos();
         }
 
-        private PlayerRenderInfo GetRenderInfo(int index)
+        public void UpdatePlayer(PlayerInfo player)
         {
-            if (index < _renderInfos.Count)
-                return _renderInfos[index];
+            var isSpectator = player.State.Team <= DemoInfo.Team.Spectate;
 
-            var result = new PlayerRenderInfo();
+            if (isSpectator)
+                return;
 
-            result.PlayerPos = new Ellipse
+            var renderInfo = GetOrCreateRenderInfo(player.EntityID);
+            var playerPos = WorldSpaceToScreenSpace(new Vector(player.Position.PositionX, player.Position.PositionY));
+
+            if (player.State.IsAlive)
             {
-                Width = 15,
-                Height = 15,
-                Visibility = Visibility.Hidden
-            };
+                renderInfo.PlayerPos.Visibility = Visibility.Visible;
+                renderInfo.PlayerSight.Visibility = Visibility.Visible;
+                renderInfo.DeathPos.Visibility = Visibility.Hidden;
 
-            result.playerSightBrush = new LinearGradientBrush(Color.FromArgb(64, 255, 255, 255), Color.FromArgb(0, 255, 255, 255), 0.0)
+                renderInfo.PlayerPos.Fill = player.State.Team == DemoInfo.Team.Terrorist ? Brushes.IndianRed : Brushes.DodgerBlue;
+                renderInfo.PlayerPos.Stroke = player.State.Team == DemoInfo.Team.Terrorist ? Brushes.DarkRed : Brushes.DarkBlue;
+
+                Canvas.SetLeft(renderInfo.PlayerPos, playerPos.X - 15 / 2);
+                Canvas.SetTop(renderInfo.PlayerPos, playerPos.Y - 15 / 2);
+
+                var left = playerPos + CreateVectorFromRotation(128, player.Position.ViewDirectionX - 45f);
+                var right = playerPos + CreateVectorFromRotation(128, player.Position.ViewDirectionX + 45f);
+                var center = (left + right) / 2;
+
+                renderInfo.playerSightBrush.StartPoint = new Point(playerPos.X, playerPos.Y);
+                renderInfo.playerSightBrush.EndPoint = new Point(center.X, center.Y);
+
+                renderInfo.PlayerSight.Points[0] = new Point(playerPos.X, playerPos.Y);
+                renderInfo.PlayerSight.Points[1] = new Point(left.X, left.Y);
+                renderInfo.PlayerSight.Points[2] = new Point(right.X, right.Y);
+            }
+            else
             {
-                MappingMode = BrushMappingMode.Absolute
-            };
+                renderInfo.PlayerPos.Visibility = Visibility.Hidden;
+                renderInfo.PlayerSight.Visibility = Visibility.Hidden;
+                renderInfo.DeathPos.Visibility = Visibility.Visible;
 
-            result.PlayerSight = new Polygon
+                renderInfo.DeathPos.Fill = player.State.Team == DemoInfo.Team.Terrorist ? Brushes.IndianRed : Brushes.DodgerBlue;
+                renderInfo.DeathPos.Stroke = player.State.Team == DemoInfo.Team.Terrorist ? Brushes.DarkRed : Brushes.DarkBlue;
+
+                Canvas.SetLeft(renderInfo.DeathPos, playerPos.X);
+                Canvas.SetTop(renderInfo.DeathPos, playerPos.Y);
+            }
+        }
+
+        public void EndUpdate()
+        {
+            RemoveUnusedRenderInfos();
+        }
+
+        private PlayerRenderInfo GetOrCreateRenderInfo(int entityId)
+        {
+            PlayerRenderInfo result;
+
+            if (!_renderInfos.TryGetValue(entityId, out result))
             {
-                Fill = result.playerSightBrush,
-                Points = new PointCollection { new Point(), new Point(), new Point() },
-                Visibility = Visibility.Hidden
-            };
+                result = new PlayerRenderInfo();
 
-            result.DeathPos = new Path
-            {
-                Data = s_cross,
-                Visibility = Visibility.Hidden
-            };
+                result.PlayerPos = new Ellipse
+                {
+                    Width = 15,
+                    Height = 15,
+                    Visibility = Visibility.Hidden
+                };
 
-            canvas.Children.Add(result.PlayerPos);
-            canvas.Children.Add(result.PlayerSight);
-            canvas.Children.Add(result.DeathPos);
+                result.playerSightBrush = new LinearGradientBrush(Color.FromArgb(64, 255, 255, 255), Color.FromArgb(0, 255, 255, 255), 0.0)
+                {
+                    MappingMode = BrushMappingMode.Absolute
+                };
 
-            _renderInfos.Add(result);
+                result.PlayerSight = new Polygon
+                {
+                    Fill = result.playerSightBrush,
+                    Points = new PointCollection { new Point(), new Point(), new Point() },
+                    Visibility = Visibility.Hidden
+                };
 
+                result.DeathPos = new Path
+                {
+                    Data = s_cross,
+                    Visibility = Visibility.Hidden
+                };
+
+                canvas.Children.Add(result.PlayerPos);
+                canvas.Children.Add(result.PlayerSight);
+                canvas.Children.Add(result.DeathPos);
+                _renderInfos.Add(entityId, result);
+            }
+
+            result.Used = true;
             return result;
         }
 
-        private void RemoveUnusedRenderInfos(int index)
+        private void ResetUsedRenderInfos()
         {
-            for (int j = index; j < _renderInfos.Count; j++)
-            {
-                canvas.Children.Remove(_renderInfos[j].PlayerPos);
-                canvas.Children.Remove(_renderInfos[j].PlayerSight);
-                canvas.Children.Remove(_renderInfos[j].DeathPos);
-            }
+            foreach (var pri in _renderInfos.Values)
+                pri.Used = false;
+        }
 
-            _renderInfos.RemoveRange(index, _renderInfos.Count - index);
+        private void RemoveUnusedRenderInfos()
+        {
+            foreach (var renderInfo in _renderInfos)
+            {
+                if (!renderInfo.Value.Used)
+                {
+                    canvas.Children.Remove(renderInfo.Value.PlayerPos);
+                    canvas.Children.Remove(renderInfo.Value.PlayerSight);
+                    canvas.Children.Remove(renderInfo.Value.DeathPos);
+
+                    _renderInfos.Remove(renderInfo.Key);
+                }
+            }
         }
 
         private System.Windows.Vector WorldSpaceToScreenSpace(System.Windows.Vector worldSpace)
@@ -212,12 +230,14 @@ namespace DemoAnalyzer
             return new ImageBrush(new BitmapImage(uri));
         }
 
-        private struct PlayerRenderInfo
+        private class PlayerRenderInfo
         {
             public Ellipse PlayerPos;
             public Polygon PlayerSight;
             public LinearGradientBrush playerSightBrush;
             public Path DeathPos;
+            public bool Selected;
+            public bool Used;
         }
     }
 }

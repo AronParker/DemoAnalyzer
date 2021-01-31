@@ -1,4 +1,5 @@
 ﻿using DemoInfo;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +11,9 @@ namespace DemoAnalyzer.Data
         private PlayerKillData _playerKills = new PlayerKillData();
         private List<RoundInfo> _rounds = new List<RoundInfo>();
 
-        public int LastTick { get; }
+        public IReadOnlyList<RoundInfo> Rounds => _rounds;
+
+        public int LastTick { get; private set; }
 
         public void Parse(DemoParser parser)
         {
@@ -31,6 +34,7 @@ namespace DemoAnalyzer.Data
 
             parser.RoundEnd += (sender, e) =>
             {
+                currentRoundInfo.EndTick = parser.IngameTick;
                 currentRoundInfo.Winner = e.Winner;
                 currentRoundInfo.Reason = e.Reason;
                 currentRoundInfo.Message = e.Message;
@@ -143,6 +147,72 @@ namespace DemoAnalyzer.Data
             {
 
             }
+
+            LastTick = parser.IngameTick;
+        }
+
+        public IEnumerable<PlayerInfo> ReadPlayerInfos(int tick)
+        {
+            foreach (var kvp in _playerData)
+            {
+                var stateIdx = GetLatestTickIndex(kvp.Value.StatesTicks, tick);
+
+                if (stateIdx == -1)
+                    continue;
+
+                var playerInfo = new PlayerInfo();
+                playerInfo.EntityID = kvp.Value.EntityID;
+                playerInfo.State = kvp.Value.States[stateIdx];
+
+                if (!playerInfo.State.IsConnected)
+                    continue;
+
+                if (kvp.Value.Positions.Count > 0)
+                {
+                    var posIdx = GetLatestTickIndex(kvp.Value.PositionsTicks, tick);
+
+                    if (posIdx != -1)
+                        playerInfo.Position = kvp.Value.Positions[posIdx];
+                }
+
+                if (kvp.Value.Statistics.Count > 0)
+                {
+                    var statsIdx = GetLatestTickIndex(kvp.Value.StatisticsTicks, tick);
+
+                    if (statsIdx != -1)
+                        playerInfo.Statistics = kvp.Value.Statistics[statsIdx];
+                }
+
+                yield return playerInfo;
+            }
+
+            yield break;
+        }
+
+        public IEnumerable<PlayerKill> ReadRecentKills(int tick, int number = 5)
+        {
+            if (number < 1)
+                throw new ArgumentOutOfRangeException(nameof(number));
+
+            var lastIndexInclusive = GetLatestTickIndex(_playerKills.KillsTicks, tick);
+
+            if (lastIndexInclusive == -1)
+                yield break;
+
+            var firstIndexInclusive = Math.Max(lastIndexInclusive - number + 1, 0);
+
+            for (int i = firstIndexInclusive; i <= lastIndexInclusive; i++)
+                yield return _playerKills.Kills[i];
+        }
+
+        private static int GetLatestTickIndex(List<int> tickList, int tick)
+        {
+            var idx = tickList.BinarySearch(tick);
+
+            if (idx >= 0)
+                return idx;
+
+            return ~idx - 1;
         }
     }
 }

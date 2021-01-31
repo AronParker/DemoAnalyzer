@@ -1,99 +1,38 @@
 ﻿using DemoAnalyzer.Data;
+using DemoAnalyzer.ViewModel;
 using DemoInfo;
 using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Threading;
 
 namespace DemoAnalyzer
 {
-    public class PlayerListViewItem : INotifyPropertyChanged
-    {
-        private string _name = "";
-        private Team _team = Team.Spectate;
-        private bool _dead = false;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public string Name
-        { 
-            get => _name; 
-            set
-            {
-                if (_name != value)
-                {
-                    _name = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-        public Team Team 
-        { 
-            get => _team;
-            set
-            {
-                if (_team != value)
-                {
-                    _team = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-        public bool Dead
-        { 
-            get => _dead;
-            set
-            {
-                if (_dead != value)
-                {
-                    _dead = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        private DemoState _state = new DemoState();
-        private DemoData _data = new DemoData();
-        private ObservableCollection<PlayerListViewItem> _playerInfos = new ObservableCollection<PlayerListViewItem>();
-        //private DispatcherTimer _timer;
+        private DemoData _demo = new DemoData();
+        private ObservableCollection<PlayerListViewItem> _playerList = new ObservableCollection<PlayerListViewItem>();
+        private DispatcherTimer _playTimer;
 
         public MainWindow()
         {
             InitializeComponent();
             
-            playersLV.ItemsSource = _playerInfos;
+            playersLV.ItemsSource = _playerList;
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(playersLV.ItemsSource);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("Team");
             view.GroupDescriptions.Add(groupDescription);
-
-            _playerInfos.Add(new PlayerListViewItem() { Name = "Aron", Team = Team.Spectate, Dead = false });
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            _playerInfos[0].Name = "Pon";
-
-            return;
             var ofd = new OpenFileDialog();
             ofd.Filter = "Demo files (*.dem)|*.dem";
             ofd.FileName = @"C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo\broadcast.dem";
@@ -110,16 +49,27 @@ namespace DemoAnalyzer
                         return;
                     }
 
-                    _data.Parse(parser);
-                    _state.Parse(parser);
+                    _demo.Parse(parser);
 
-                    timeline.Init(_state.MinTick, _state.MaxTick, _state.Rounds);
+                    timeline.Init(_demo.Rounds, _demo.LastTick);
                 }
             }
         }
 
         private void timeline_PlaybackPositionChanged(object sender, EventArgs e)
         {
+            BeginPlayerListUpdate();
+            minimap.BeginUpdate();
+
+            foreach (var playerInfo in _demo.ReadPlayerInfos(timeline.PlaybackPosition))
+            {
+                minimap.UpdatePlayer(playerInfo);
+                UpdatePlayerListPlayer(playerInfo);
+            }
+
+            EndPlayerListUpdate();
+            minimap.EndUpdate();
+
             //_playerInfos.Clear();
             //
             //foreach (var p in _state.ReadPlayerStates(timeline.PlaybackPosition))
@@ -127,6 +77,59 @@ namespace DemoAnalyzer
             //
             //minimap.SetPlayers(_playerInfos);
             //killfeed.SetKills(_state.ReadRecentKills(timeline.PlaybackPosition));
+        }
+
+        private void BeginPlayerListUpdate()
+        {
+            foreach (var player in _playerList)
+                player.Used = false;
+        }
+
+        private void UpdatePlayerListPlayer(Data.PlayerInfo playerInfo)
+        {
+            var idx = FindPlayerListIndex(playerInfo.EntityID);
+
+            if (idx == -1)
+            {
+                var newPlayer = new PlayerListViewItem(playerInfo.EntityID, playerInfo.State.Name, playerInfo.State.Team, playerInfo.State.Team != Team.Spectate && !playerInfo.State.IsAlive)
+                {
+                    Used = true
+                };
+
+                _playerList.Add(newPlayer);
+            }
+            else
+            {
+                var existingPlayer = _playerList[idx];
+
+                existingPlayer.Name = playerInfo.State.Name;
+
+                if (existingPlayer.Team != playerInfo.State.Team)
+                {
+                    existingPlayer.Team = playerInfo.State.Team;
+                    ICollectionView view = CollectionViewSource.GetDefaultView(playersLV.ItemsSource);
+                    view.Refresh();
+                } 
+
+                existingPlayer.Dead = playerInfo.State.Team != Team.Spectate && !playerInfo.State.IsAlive;
+                existingPlayer.Used = true;
+            }        
+        }
+
+        private int FindPlayerListIndex(int entityId)
+        {
+            for (int i = 0; i < _playerList.Count; i++)
+                if (_playerList[i].EntityID == entityId)
+                    return i;
+
+            return -1;
+        }
+
+        private void EndPlayerListUpdate()
+        {
+            for (int i = _playerList.Count - 1; i >= 0; i--)
+                if (!_playerList[i].Used)
+                    _playerList.RemoveAt(i);
         }
     }
 }

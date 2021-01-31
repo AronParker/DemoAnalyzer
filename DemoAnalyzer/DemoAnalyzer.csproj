@@ -66,19 +66,20 @@
     </ApplicationDefinition>
     <Compile Include="Data\DemoData.cs" />
     <Compile Include="Data\PlayerData.cs" />
+    <Compile Include="Data\PlayerInfo.cs" />
     <Compile Include="Data\PlayerKill.cs" />
     <Compile Include="Data\PlayerKillData.cs" />
     <Compile Include="Data\PlayerPosition.cs" />
     <Compile Include="Data\PlayerState.cs" />
     <Compile Include="Data\PlayerStatistics.cs" />
     <Compile Include="Data\RoundInfo.cs" />
-    <Compile Include="DemoState.cs" />
     <Compile Include="Killfeed.xaml.cs">
       <DependentUpon>Killfeed.xaml</DependentUpon>
     </Compile>
     <Compile Include="Minimap.xaml.cs">
       <DependentUpon>Minimap.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\PlayerListViewItem.cs" />
     <Compile Include="TeamToColorConverter.cs" />
     <Compile Include="Timeline.xaml.cs">
       <DependentUpon>Timeline.xaml</DependentUpon>

@@ -24,7 +24,7 @@
             <MenuItem Header="_File">
                 <MenuItem Header="_New..." />
                 <Separator />
-                <MenuItem Header="_Open..." Click="MenuItem_Click" />
+                <MenuItem Header="_Open..." Click="OpenMenuItem_Click" />
                 <Separator />
                 <MenuItem Header="_Save" />
                 <MenuItem Header="_Save As..." />
@@ -45,7 +45,7 @@
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            
+
             <ListView Name="playersLV" Grid.Column="0" Background="Black" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Padding="10">
                 <ListView.ItemTemplate>
                     <DataTemplate>

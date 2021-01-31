@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DemoAnalyzer.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -14,24 +15,21 @@ namespace DemoAnalyzer
     /// </summary>
     public partial class Timeline : UserControl
     {
-        private int _minTick;
-        private int _maxTick;
+        private int _lastTick;
         private int _playbackPosition = 0;
         private int _selectionStart = 0;
         private int _selectionEnd = 0;
 
-        private DemoState.RoundData[] _rounds;
+        private RoundInfo[] _rounds;
         private Line[] _lines;
 
-        public int MinTick => _minTick;
-        public int MaxTick => _maxTick;
-
+        public int LastTick => _lastTick;
         public int PlaybackPosition
         {
             get => _playbackPosition;
             set
             {
-                if (_maxTick == 0)
+                if (_lastTick == 0)
                     throw new InvalidOperationException();
 
                 if (_playbackPosition != value)
@@ -55,11 +53,10 @@ namespace DemoAnalyzer
             InitializeComponent();
         }
 
-        public void Init(int minTick, int maxTick, IReadOnlyList<DemoState.RoundData> rounds)
+        public void Init(IReadOnlyList<RoundInfo> rounds, int lastTick)
         {
-            _minTick = minTick;
-            _maxTick = maxTick;
             _playbackPosition = 0;
+            _lastTick = lastTick;
 
             playback.Visibility = Visibility.Visible;
             playback.X1 = 0;
@@ -89,7 +86,7 @@ namespace DemoAnalyzer
             {
                 if (widthChanged)
                 {
-                    var position = TickToCanvasPosition(_rounds[i].Start);
+                    var position = TickToCanvasPosition(_rounds[i].StartTick);
 
                     _lines[i].X1 = position;
                     _lines[i].X2 = position;
@@ -105,8 +102,7 @@ namespace DemoAnalyzer
 
         public void Deinit()
         {
-            _minTick = 0;
-            _maxTick = 0;
+            _lastTick = 0;
 
             hover.Visibility = Visibility.Hidden;
             playback.Visibility = Visibility.Hidden;
@@ -121,7 +117,7 @@ namespace DemoAnalyzer
         {
             base.OnRenderSizeChanged(sizeInfo);
 
-            if (sizeInfo.WidthChanged && MaxTick != 0)
+            if (sizeInfo.WidthChanged && _lastTick != 0)
             {
                 var canvasPosition = TickToCanvasPosition(_playbackPosition);
 
@@ -170,7 +166,7 @@ namespace DemoAnalyzer
         {
             base.OnMouseLeftButtonDown(e);
 
-            if (MaxTick == 0)
+            if (_lastTick == 0)
                 return;
 
             var tickByPosition = MousePositionToTick(e);
@@ -194,7 +190,7 @@ namespace DemoAnalyzer
         private int GetRound(int tick)
         {
             for (int i = 0; i < _rounds.Length; i++)
-                if (tick >= _rounds[i].Start && tick <= _rounds[i].End)
+                if (tick >= _rounds[i].StartTick && tick <= _rounds[i].EndTick)
                     return i;
             
             return -1;
@@ -204,7 +200,7 @@ namespace DemoAnalyzer
         {
             base.OnMouseMove(e);
 
-            if (MaxTick == 0)
+            if (_lastTick == 0)
                 return;
 
             var tickByPosition = MousePositionToTick(e);
@@ -284,17 +280,17 @@ namespace DemoAnalyzer
         {
             var pos = e.MouseDevice.GetPosition(canvas);
             var percentage = (double)pos.X / canvas.ActualWidth;
-            var ticks = percentage * MaxTick;
+            var ticks = percentage * _lastTick;
 
             return (int)Math.Round(ticks);
         }
 
         private double TickToCanvasPosition(int tick)
         {
-            if (MaxTick == 0)
+            if (_lastTick == 0)
                 throw new InvalidOperationException();
 
-            var percentage = (double)tick / MaxTick;
+            var percentage = (double)tick / _lastTick;
             var canvasPosition = percentage * canvas.ActualWidth;
 
             return canvasPosition;
