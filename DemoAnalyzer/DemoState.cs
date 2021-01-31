@@ -18,7 +18,6 @@ namespace DemoAnalyzer
         public bool IsDead => !State.IsAlive;
     }
 
-
     public class DemoState
     {
         private Dictionary<Player, PlayerData> _dict = new Dictionary<Player, PlayerData>();
@@ -97,7 +96,7 @@ namespace DemoAnalyzer
             }
             catch
             {
-
+                // TODO
             }
         }
 
