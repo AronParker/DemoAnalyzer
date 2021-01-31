@@ -23,7 +23,7 @@ namespace DemoAnalyzer
         public MainWindow()
         {
             InitializeComponent();
-            
+
             playersLV.ItemsSource = _playerList;
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(playersLV.ItemsSource);
@@ -70,13 +70,7 @@ namespace DemoAnalyzer
             EndPlayerListUpdate();
             minimap.EndUpdate();
 
-            //_playerInfos.Clear();
-            //
-            //foreach (var p in _state.ReadPlayerStates(timeline.PlaybackPosition))
-            //    _playerInfos.Add(p);
-            //
-            //minimap.SetPlayers(_playerInfos);
-            //killfeed.SetKills(_state.ReadRecentKills(timeline.PlaybackPosition));
+            killfeed.SetKills(_demo.ReadRecentKills(timeline.PlaybackPosition, 5));
         }
 
         private void BeginPlayerListUpdate()

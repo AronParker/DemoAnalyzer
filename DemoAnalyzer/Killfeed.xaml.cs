@@ -1,4 +1,5 @@
-﻿using DemoInfo;
+﻿using DemoAnalyzer.Data;
+using DemoInfo;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -31,7 +32,7 @@ namespace DemoAnalyzer
                 dn.Visibility = Visibility.Hidden;
         }
 
-        public void SetKills(IEnumerable<PlayerKilledEventArgs> kills)
+        public void SetKills(IEnumerable<PlayerKill> kills)
         {
             var index = 0;
 
@@ -39,12 +40,12 @@ namespace DemoAnalyzer
             {
                 _deathNotices[index].Visibility = Visibility.Visible;
 
-                if (kill.Assister != null)
-                    _killers[index].Text = $"{kill.Killer.Name} + {kill.Assister.Name}";
+                if (kill.AssisterName != null)
+                    _killers[index].Text = $"{kill.KillerName} + {kill.AssisterName}";
                 else
-                    _killers[index].Text = kill.Killer.Name;
+                    _killers[index].Text = kill.KillerName;
 
-                switch (kill.Killer.Team)
+                switch (kill.KillerTeam)
                 {
                     case Team.Terrorist:
                         _killers[index].Foreground = Brushes.IndianRed;
@@ -56,9 +57,9 @@ namespace DemoAnalyzer
 
                 _weapons[index].Source = GetWeaponIcon(kill.Weapon);
 
-                _victims[index].Text = kill.Victim.Name;
+                _victims[index].Text = kill.VictimName;
 
-                switch (kill.Victim.Team)
+                switch (kill.VictimTeam)
                 {
                     case Team.Terrorist:
                         _victims[index].Foreground = Brushes.IndianRed;
@@ -174,6 +175,5 @@ namespace DemoAnalyzer
                     return @"assets\deathnotice\icon-suicide.png";
             }
         }
-        
     }
 }

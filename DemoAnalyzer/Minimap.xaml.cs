@@ -1,6 +1,7 @@
 ﻿using DemoAnalyzer.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -200,10 +201,11 @@ namespace DemoAnalyzer
                     canvas.Children.Remove(renderInfo.Value.PlayerPos);
                     canvas.Children.Remove(renderInfo.Value.PlayerSight);
                     canvas.Children.Remove(renderInfo.Value.DeathPos);
-
-                    _renderInfos.Remove(renderInfo.Key);
                 }
             }
+
+            foreach (var key in _renderInfos.Where(x => !x.Value.Used).Select(x => x.Key).ToArray())
+                _renderInfos.Remove(key);
         }
 
         private System.Windows.Vector WorldSpaceToScreenSpace(System.Windows.Vector worldSpace)
