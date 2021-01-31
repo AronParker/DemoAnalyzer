@@ -1,4 +1,5 @@
 ﻿using DemoAnalyzer.Data;
+using DemoInfo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,8 @@ namespace DemoAnalyzer
         {
             InitializeComponent();
         }
+
+        public HashSet<int> SelectedPlayers { get; set; }
 
         public bool LoadMap(string mapName)
         {
@@ -91,7 +94,25 @@ namespace DemoAnalyzer
             ResetUsedRenderInfos();
         }
 
-        public void UpdatePlayer(PlayerInfo player)
+        public bool SelectPlayer(int entityId, bool selected)
+        {
+            if (!_renderInfos.TryGetValue(entityId, out var renderInfo))
+                return false;
+
+            renderInfo.Selected = selected;
+
+            var fillColor = GetFillColor(selected, renderInfo.Team);
+            var strokeColor = GetStrokeColor(selected, renderInfo.Team);
+
+            renderInfo.PlayerPos.Fill = fillColor;
+            renderInfo.PlayerPos.Stroke = strokeColor;
+            renderInfo.DeathPos.Fill = fillColor;
+            renderInfo.DeathPos.Stroke = strokeColor;
+
+            return true;
+        }
+
+        public void UpdatePlayer(Data.PlayerInfo player)
         {
             var isSpectator = player.State.Team <= DemoInfo.Team.Spectate;
 
@@ -99,7 +120,7 @@ namespace DemoAnalyzer
                 return;
 
             var renderInfo = GetOrCreateRenderInfo(player.EntityID);
-            var playerPos = WorldSpaceToScreenSpace(new Vector(player.Position.PositionX, player.Position.PositionY));
+            var playerPos = WorldSpaceToScreenSpace(new System.Windows.Vector(player.Position.PositionX, player.Position.PositionY));
 
             if (player.State.IsAlive)
             {
@@ -107,8 +128,14 @@ namespace DemoAnalyzer
                 renderInfo.PlayerSight.Visibility = Visibility.Visible;
                 renderInfo.DeathPos.Visibility = Visibility.Hidden;
 
-                renderInfo.PlayerPos.Fill = player.State.Team == DemoInfo.Team.Terrorist ? Brushes.IndianRed : Brushes.DodgerBlue;
-                renderInfo.PlayerPos.Stroke = player.State.Team == DemoInfo.Team.Terrorist ? Brushes.DarkRed : Brushes.DarkBlue;
+                renderInfo.Team = player.State.Team;
+                renderInfo.Selected = SelectedPlayers.Contains(player.EntityID);
+
+                var fillColor = GetFillColor(renderInfo.Selected, renderInfo.Team);
+                var strokeColor = GetStrokeColor(renderInfo.Selected, renderInfo.Team);
+
+                renderInfo.PlayerPos.Fill = fillColor;
+                renderInfo.PlayerPos.Stroke = strokeColor;
 
                 Canvas.SetLeft(renderInfo.PlayerPos, playerPos.X - 15 / 2);
                 Canvas.SetTop(renderInfo.PlayerPos, playerPos.Y - 15 / 2);
@@ -130,8 +157,14 @@ namespace DemoAnalyzer
                 renderInfo.PlayerSight.Visibility = Visibility.Hidden;
                 renderInfo.DeathPos.Visibility = Visibility.Visible;
 
-                renderInfo.DeathPos.Fill = player.State.Team == DemoInfo.Team.Terrorist ? Brushes.IndianRed : Brushes.DodgerBlue;
-                renderInfo.DeathPos.Stroke = player.State.Team == DemoInfo.Team.Terrorist ? Brushes.DarkRed : Brushes.DarkBlue;
+                renderInfo.Team = player.State.Team;
+                renderInfo.Selected = SelectedPlayers.Contains(player.EntityID);
+
+                var fillColor = GetFillColor(renderInfo.Selected, renderInfo.Team);
+                var strokeColor = GetStrokeColor(renderInfo.Selected, renderInfo.Team);
+
+                renderInfo.DeathPos.Fill = fillColor;
+                renderInfo.DeathPos.Stroke = strokeColor;
 
                 Canvas.SetLeft(renderInfo.DeathPos, playerPos.X);
                 Canvas.SetTop(renderInfo.DeathPos, playerPos.Y);
@@ -232,12 +265,45 @@ namespace DemoAnalyzer
             return new ImageBrush(new BitmapImage(uri));
         }
 
+        private static Brush GetFillColor(bool selected, Team team)
+        {
+            if (selected)
+                return Brushes.LimeGreen;
+
+            switch (team)
+            {
+                case Team.Terrorist:
+                    return Brushes.IndianRed;
+                case Team.CounterTerrorist:
+                    return Brushes.DodgerBlue;
+            }
+
+            return Brushes.Pink;
+        }
+
+        private static Brush GetStrokeColor(bool selected, Team team)
+        {
+            if (selected)
+                return Brushes.DarkGreen;
+
+            switch (team)
+            {
+                case Team.Terrorist:
+                    return Brushes.DarkRed;
+                case Team.CounterTerrorist:
+                    return Brushes.DarkBlue;
+            }
+
+            return Brushes.Pink;
+        }
+
         private class PlayerRenderInfo
         {
             public Ellipse PlayerPos;
             public Polygon PlayerSight;
             public LinearGradientBrush playerSightBrush;
             public Path DeathPos;
+            public Team Team;
             public bool Selected;
             public bool Used;
         }

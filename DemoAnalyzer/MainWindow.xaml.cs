@@ -3,6 +3,7 @@ using DemoAnalyzer.ViewModel;
 using DemoInfo;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
@@ -18,6 +19,7 @@ namespace DemoAnalyzer
     {
         private DemoData _demo = new DemoData();
         private ObservableCollection<PlayerListViewItem> _playerList = new ObservableCollection<PlayerListViewItem>();
+        private HashSet<int> _selectedPlayers = new HashSet<int>();
         private DispatcherTimer _playTimer;
 
         public MainWindow()
@@ -25,6 +27,7 @@ namespace DemoAnalyzer
             InitializeComponent();
 
             playersLV.ItemsSource = _playerList;
+            minimap.SelectedPlayers = _selectedPlayers;
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(playersLV.ItemsSource);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("Team");
@@ -124,6 +127,26 @@ namespace DemoAnalyzer
             for (int i = _playerList.Count - 1; i >= 0; i--)
                 if (!_playerList[i].Used)
                     _playerList.RemoveAt(i);
+        }
+
+        private void playersLV_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+            foreach (var added in e.AddedItems)
+            {
+                var entityID = ((PlayerListViewItem)added).EntityID;
+
+                _selectedPlayers.Add(entityID);
+                minimap.SelectPlayer(entityID, true);
+            }
+
+            foreach (var removed in e.RemovedItems)
+            {
+                var entityID = ((PlayerListViewItem)removed).EntityID;
+
+                minimap.SelectPlayer(entityID, false);
+                _selectedPlayers.Remove(entityID);
+            }
         }
     }
 }
