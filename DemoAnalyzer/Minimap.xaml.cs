@@ -94,24 +94,6 @@ namespace DemoAnalyzer
             ResetUsedRenderInfos();
         }
 
-        public bool SelectPlayer(int entityId, bool selected)
-        {
-            if (!_renderInfos.TryGetValue(entityId, out var renderInfo))
-                return false;
-
-            renderInfo.Selected = selected;
-
-            var fillColor = GetFillColor(selected, renderInfo.Team);
-            var strokeColor = GetStrokeColor(selected, renderInfo.Team);
-
-            renderInfo.PlayerPos.Fill = fillColor;
-            renderInfo.PlayerPos.Stroke = strokeColor;
-            renderInfo.DeathPos.Fill = fillColor;
-            renderInfo.DeathPos.Stroke = strokeColor;
-
-            return true;
-        }
-
         public void UpdatePlayer(Data.PlayerInfo player)
         {
             var isSpectator = player.State.Team <= DemoInfo.Team.Spectate;
@@ -122,17 +104,16 @@ namespace DemoAnalyzer
             var renderInfo = GetOrCreateRenderInfo(player.EntityID);
             var playerPos = WorldSpaceToScreenSpace(new System.Windows.Vector(player.Position.PositionX, player.Position.PositionY));
 
+            var selected = SelectedPlayers.Contains(player.EntityID);
+            var team = player.State.Team;
+            var fillColor = GetFillColor(selected, team);
+            var strokeColor = GetStrokeColor(selected, team);
+
             if (player.State.IsAlive)
             {
                 renderInfo.PlayerPos.Visibility = Visibility.Visible;
                 renderInfo.PlayerSight.Visibility = Visibility.Visible;
                 renderInfo.DeathPos.Visibility = Visibility.Hidden;
-
-                renderInfo.Team = player.State.Team;
-                renderInfo.Selected = SelectedPlayers.Contains(player.EntityID);
-
-                var fillColor = GetFillColor(renderInfo.Selected, renderInfo.Team);
-                var strokeColor = GetStrokeColor(renderInfo.Selected, renderInfo.Team);
 
                 renderInfo.PlayerPos.Fill = fillColor;
                 renderInfo.PlayerPos.Stroke = strokeColor;
@@ -156,12 +137,6 @@ namespace DemoAnalyzer
                 renderInfo.PlayerPos.Visibility = Visibility.Hidden;
                 renderInfo.PlayerSight.Visibility = Visibility.Hidden;
                 renderInfo.DeathPos.Visibility = Visibility.Visible;
-
-                renderInfo.Team = player.State.Team;
-                renderInfo.Selected = SelectedPlayers.Contains(player.EntityID);
-
-                var fillColor = GetFillColor(renderInfo.Selected, renderInfo.Team);
-                var strokeColor = GetStrokeColor(renderInfo.Selected, renderInfo.Team);
 
                 renderInfo.DeathPos.Fill = fillColor;
                 renderInfo.DeathPos.Stroke = strokeColor;
@@ -303,8 +278,6 @@ namespace DemoAnalyzer
             public Polygon PlayerSight;
             public LinearGradientBrush playerSightBrush;
             public Path DeathPos;
-            public Team Team;
-            public bool Selected;
             public bool Used;
         }
     }

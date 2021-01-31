@@ -46,8 +46,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="0" Orientation="Vertical">
-                <ListView Name="playersLV" Background="Black" HorizontalAlignment="Stretch" Padding="10" SelectionChanged="playersLV_SelectionChanged">
+            <StackPanel Grid.Column="0" Orientation="Vertical" Background="Black">
+                <ListView Name="playersLV" Background="Black" HorizontalAlignment="Stretch" Padding="10" SelectionChanged="playersLV_SelectionChanged" BorderThickness="0">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -67,7 +67,8 @@
                         </GroupStyle>
                     </ListView.GroupStyle>
                 </ListView>
-                <TextBlock x:Name="playerInfos" Background="Pink" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                <Separator/>
+                <TextBlock x:Name="playerInfos" Background="Black" Foreground="White" Padding="10" TextWrapping="Wrap" FontSize="16" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
             </StackPanel>
             
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#444"/>

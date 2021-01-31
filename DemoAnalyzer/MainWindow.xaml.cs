@@ -61,6 +61,8 @@ namespace DemoAnalyzer
 
         private void timeline_PlaybackPositionChanged(object sender, EventArgs e)
         {
+            var text = "";
+
             BeginPlayerListUpdate();
             minimap.BeginUpdate();
 
@@ -68,10 +70,35 @@ namespace DemoAnalyzer
             {
                 minimap.UpdatePlayer(playerInfo);
                 UpdatePlayerListPlayer(playerInfo);
+
+                if (_selectedPlayers.Contains(playerInfo.EntityID))
+                {
+                    text += $@"{playerInfo.State.Name} Statistics:
+
+Kills: {playerInfo.Statistics.Kills}
+Deaths: {playerInfo.Statistics.Deaths}
+Assists: {playerInfo.Statistics.Assists}
+Score: {playerInfo.Statistics.Score}
+MVPs: {playerInfo.Statistics.MVPs}
+Ping: {playerInfo.Statistics.Ping}
+Clantag: {playerInfo.Statistics.Clantag}
+TotalCashSpent: {playerInfo.Statistics.TotalCashSpent}
+
+";
+                }
             }
 
             EndPlayerListUpdate();
             minimap.EndUpdate();
+
+            if (text == "")
+            {
+                playerInfos.Text = "Click on a player to view more information about them.";
+            }
+            else
+            {
+                playerInfos.Text = text;
+            }
 
             killfeed.SetKills(_demo.ReadRecentKills(timeline.PlaybackPosition, 5));
         }
@@ -131,22 +158,19 @@ namespace DemoAnalyzer
 
         private void playersLV_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-
             foreach (var added in e.AddedItems)
             {
                 var entityID = ((PlayerListViewItem)added).EntityID;
-
                 _selectedPlayers.Add(entityID);
-                minimap.SelectPlayer(entityID, true);
             }
 
             foreach (var removed in e.RemovedItems)
             {
                 var entityID = ((PlayerListViewItem)removed).EntityID;
-
-                minimap.SelectPlayer(entityID, false);
                 _selectedPlayers.Remove(entityID);
             }
+
+            timeline_PlaybackPositionChanged(this, EventArgs.Empty);
         }
     }
 }
