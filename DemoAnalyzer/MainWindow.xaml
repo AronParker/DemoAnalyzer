@@ -51,7 +51,7 @@
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock VerticalAlignment="Center" FontSize="14" Foreground="{Binding Team, Converter={StaticResource test}, ConverterParameter=body}" Text="{Binding Name}" Margin="5,0,5,0" />
-                            <Image Stretch="Uniform" Height="14" Source="assets/deathnotice/icon-suicide.png" Visibility="{Binding IsDead, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            <Image Stretch="Uniform" Height="14" Source="assets/deathnotice/icon-suicide.png" Visibility="{Binding Dead, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
