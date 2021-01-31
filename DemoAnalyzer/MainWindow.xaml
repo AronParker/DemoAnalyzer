@@ -41,7 +41,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -74,9 +74,45 @@
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#444"/>
             <local:Minimap x:Name="minimap" Grid.Column="2"/>
             <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#444"/>
-            <Viewbox VerticalAlignment="Top" Grid.Column="4">
-                <local:Killfeed x:Name="killfeed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            </Viewbox>            
+
+            <Grid Grid.Column="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="200"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <local:Killfeed Grid.ColumnSpan="3" x:Name="killfeed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="5"/>
+
+                <Button Grid.Row="2" Grid.ColumnSpan="3" Margin="10" Height="40">Generate Heat map</Button>
+                <Button Grid.Row="3" Grid.ColumnSpan="3" Margin="10" Height="40">Generate Sight heat map</Button>
+                <Button Grid.Row="4" Grid.ColumnSpan="3" Margin="10" Height="40">Analyze player positions</Button>
+                <Button Grid.Row="5" Grid.ColumnSpan="3" Margin="10" Height="40">Analyze player accuracy</Button>
+                <Button Grid.Row="6" Grid.ColumnSpan="3" Margin="10" Height="40">Analyze player patience</Button>
+                <Button Grid.Row="7" Grid.ColumnSpan="3" Margin="10,10,10,50" Height="40">Analyze player weapons</Button>
+
+                <Button Margin="5" Grid.Column="0" Grid.Row="8" Click="SkipPrevButton_Click">
+                    <Image Margin="10" Source="assets/icons/skip_prev.png"/>
+                </Button>
+                <Button Margin="5" Grid.Column="1" Grid.Row="8" Click="PlayButton_Click">
+                    <Image x:Name="playImage" Margin="10" Source="assets/icons/play.png"/>
+                </Button>
+                <Button Margin="5" Grid.Column="2" Grid.Row="8" Click="SkipNextButton_Click">
+                    <Image Margin="10" Source="assets/icons/skip_next.png"/>
+                </Button>
+            </Grid>
         </Grid>
 
         <GridSplitter Grid.Row="2" Background="#444" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>

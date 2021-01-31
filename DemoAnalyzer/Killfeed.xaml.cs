@@ -42,8 +42,10 @@ namespace DemoAnalyzer
 
                 if (kill.AssisterName != null)
                     _killers[index].Text = $"{kill.KillerName} + {kill.AssisterName}";
-                else
+                else if (kill.KillerName != null)
                     _killers[index].Text = kill.KillerName;
+                else
+                    _killers[index].Text = "";
 
                 switch (kill.KillerTeam)
                 {

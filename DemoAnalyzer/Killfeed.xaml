@@ -7,30 +7,30 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel Orientation="Vertical" x:Name="notices">
-        <StackPanel x:Name="dn1" Orientation="Horizontal">
-            <TextBlock x:Name="dn1Killer" VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">Player 1</TextBlock>
-            <Image x:Name="dn1Weapon" Source="assets/deathnotice/icon-ak47.png" Stretch="Uniform" Height="14"/>
-            <TextBlock x:Name="dn1Victim" VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">Player 2</TextBlock>
+        <StackPanel x:Name="dn1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBlock FontSize="24"  x:Name="dn1Killer" VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">Player 1</TextBlock>
+            <Image x:Name="dn1Weapon" Source="assets/deathnotice/icon-ak47.png" Stretch="Uniform" Height="26"/>
+            <TextBlock FontSize="24" x:Name="dn1Victim" VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">Player 2</TextBlock>
         </StackPanel>
-        <StackPanel x:Name="dn2" Orientation="Horizontal">
-            <TextBlock x:Name="dn2Killer" VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">Player 1</TextBlock>
-            <Image x:Name="dn2Weapon" Source="assets/deathnotice/icon-ak47.png" Stretch="Uniform" Height="14"/>
-            <TextBlock x:Name="dn2Victim" VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">Player 2</TextBlock>
+        <StackPanel x:Name="dn2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBlock FontSize="24" x:Name="dn2Killer" VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">Player 1</TextBlock>
+            <Image x:Name="dn2Weapon" Source="assets/deathnotice/icon-ak47.png" Stretch="Uniform" Height="26"/>
+            <TextBlock FontSize="24" x:Name="dn2Victim" VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">Player 2</TextBlock>
         </StackPanel>
-        <StackPanel x:Name="dn3" Orientation="Horizontal">
-            <TextBlock x:Name="dn3Killer" VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">Player 1</TextBlock>
-            <Image x:Name="dn3Weapon" Source="assets/deathnotice/icon-ak47.png" Stretch="Uniform" Height="14"/>
-            <TextBlock x:Name="dn3Victim" VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">Player 2</TextBlock>
+        <StackPanel x:Name="dn3" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBlock FontSize="24" x:Name="dn3Killer" VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">Player 1</TextBlock>
+            <Image x:Name="dn3Weapon" Source="assets/deathnotice/icon-ak47.png" Stretch="Uniform" Height="26"/>
+            <TextBlock FontSize="24" x:Name="dn3Victim" VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">Player 2</TextBlock>
         </StackPanel>
-        <StackPanel x:Name="dn4" Orientation="Horizontal">
-            <TextBlock x:Name="dn4Killer" VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">Player 1</TextBlock>
-            <Image x:Name="dn4Weapon" Source="assets/deathnotice/icon-ak47.png" Stretch="Uniform" Height="14"/>
-            <TextBlock x:Name="dn4Victim" VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">Player 2</TextBlock>
+        <StackPanel x:Name="dn4" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBlock FontSize="24" x:Name="dn4Killer" VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">Player 1</TextBlock>
+            <Image x:Name="dn4Weapon" Source="assets/deathnotice/icon-ak47.png" Stretch="Uniform" Height="26"/>
+            <TextBlock FontSize="24" x:Name="dn4Victim" VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">Player 2</TextBlock>
         </StackPanel>
-        <StackPanel x:Name="dn5" Orientation="Horizontal">
-            <TextBlock x:Name="dn5Killer" VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">Player 1</TextBlock>
-            <Image x:Name="dn5Weapon" Source="assets/deathnotice/icon-ak47.png" Stretch="Uniform" Height="14"/>
-            <TextBlock x:Name="dn5Victim" VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">Player 2</TextBlock>
+        <StackPanel x:Name="dn5" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBlock FontSize="24" x:Name="dn5Killer" VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">Player 1</TextBlock>
+            <Image x:Name="dn5Weapon" Source="assets/deathnotice/icon-ak47.png" Stretch="Uniform" Height="26"/>
+            <TextBlock FontSize="24" x:Name="dn5Victim" VerticalAlignment="Center" Foreground="White" Margin="5,0,5,0">Player 2</TextBlock>
         </StackPanel>
     </StackPanel>
 </UserControl>

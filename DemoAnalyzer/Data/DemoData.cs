@@ -49,13 +49,17 @@ namespace DemoAnalyzer.Data
                     VictimId = e.Victim.EntityID,
                     VictimName = e.Victim.Name,
                     VictimTeam = e.Victim.Team,
-                    KillerId = e.Killer.EntityID,
-                    KillerName = e.Killer.Name,
-                    KillerTeam = e.Killer.Team,
                     PenetratedObjects = e.PenetratedObjects,
                     Headshot = e.Headshot,
                     AssistedFlash = e.AssistedFlash
                 };
+
+                if (e.Killer != null)
+                {
+                    pk.KillerId = e.Killer.EntityID;
+                    pk.KillerName = e.Killer.Name;
+                    pk.KillerTeam = e.Killer.Team;
+                }
 
                 if (e.Assister != null)
                 {

@@ -6,8 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace DemoAnalyzer
@@ -20,18 +23,47 @@ namespace DemoAnalyzer
         private DemoData _demo = new DemoData();
         private ObservableCollection<PlayerListViewItem> _playerList = new ObservableCollection<PlayerListViewItem>();
         private HashSet<int> _selectedPlayers = new HashSet<int>();
-        private DispatcherTimer _playTimer;
+        private DispatcherTimer _playTimer = new DispatcherTimer(DispatcherPriority.Send);
+        private int _ticksPerSecond = 64;
+
+        private ImageSource _playImageSource;
+        private ImageSource _pauseImageSource;
 
         public MainWindow()
-        {
+        {         
             InitializeComponent();
 
             playersLV.ItemsSource = _playerList;
             minimap.SelectedPlayers = _selectedPlayers;
 
+            _playImageSource = new BitmapImage(new Uri($"assets/icons/play.png", UriKind.Relative));
+            _pauseImageSource = new BitmapImage(new Uri($"assets/icons/pause.png", UriKind.Relative));
+
+            _playTimer.Tick += _playTimer_Tick;
+
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(playersLV.ItemsSource);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("Team");
             view.GroupDescriptions.Add(groupDescription);
+        }
+
+        private void _playTimer_Tick(object sender, EventArgs e)
+        {
+            if (timeline.LastTick == 0)
+                return;
+
+            int currentTick = timeline.PlaybackPosition;
+            int nextTick = currentTick + 1;
+
+            if (nextTick <= timeline.LastTick)
+            {
+                timeline.PlaybackPosition = nextTick;
+            }
+            else
+            {
+                _playTimer.Stop();
+                playImage.Source = _pauseImageSource;
+            }
+
         }
 
         private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
@@ -171,6 +203,47 @@ TotalCashSpent: {playerInfo.Statistics.TotalCashSpent}
             }
 
             timeline_PlaybackPositionChanged(this, EventArgs.Empty);
+        }
+
+        private void SkipPrevButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (timeline.LastTick == 0)
+                return;
+
+            var currentTick = timeline.PlaybackPosition;
+            var selectedRound = _demo.Rounds.LastOrDefault(x => x.StartTick < currentTick);
+
+            if (selectedRound.StartTick != 0)
+                timeline.PlaybackPosition = selectedRound.StartTick;
+        }
+
+
+        private void PlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_playTimer.IsEnabled)
+            {
+                _playTimer.Stop();
+                playImage.Source = _playImageSource;
+            }
+            else
+            {
+                _playTimer.Interval = TimeSpan.FromSeconds(1.0 / _ticksPerSecond);
+                _playTimer.Start();
+
+                playImage.Source = _pauseImageSource;
+            }
+        }
+
+        private void SkipNextButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (timeline.LastTick == 0)
+                return;
+
+            var currentTick = timeline.PlaybackPosition;
+            var selectedRound = _demo.Rounds.FirstOrDefault(x => x.StartTick > currentTick);
+
+            if (selectedRound.StartTick != 0)
+                timeline.PlaybackPosition = selectedRound.StartTick;
         }
     }
 }
