@@ -109,6 +109,7 @@ namespace DemoAnalyzer
 
 Kills: {playerInfo.Statistics.Kills}
 Deaths: {playerInfo.Statistics.Deaths}
+K/D Ratio: {(double)playerInfo.Statistics.Kills / (double)playerInfo.Statistics.Deaths:F2}
 Assists: {playerInfo.Statistics.Assists}
 Score: {playerInfo.Statistics.Score}
 MVPs: {playerInfo.Statistics.MVPs}
