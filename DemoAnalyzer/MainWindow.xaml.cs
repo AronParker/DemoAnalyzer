@@ -1,4 +1,5 @@
 ﻿using DemoAnalyzer.Data;
+using DemoAnalyzer.Tools;
 using DemoAnalyzer.ViewModel;
 using DemoInfo;
 using Microsoft.Win32;
@@ -6,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
@@ -32,13 +35,13 @@ namespace DemoAnalyzer
         public MainWindow()
         {         
             InitializeComponent();
-
+            
             playersLV.ItemsSource = _playerList;
             minimap.SelectedPlayers = _selectedPlayers;
 
             _playImageSource = new BitmapImage(new Uri($"assets/icons/play.png", UriKind.Relative));
             _pauseImageSource = new BitmapImage(new Uri($"assets/icons/pause.png", UriKind.Relative));
-
+            
             _playTimer.Tick += _playTimer_Tick;
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(playersLV.ItemsSource);
@@ -245,6 +248,23 @@ TotalCashSpent: {playerInfo.Statistics.TotalCashSpent}
 
             if (selectedRound.StartTick != 0)
                 timeline.PlaybackPosition = selectedRound.StartTick;
+        }
+
+        private void HeatmapButton_Click(object sender, RoutedEventArgs e)
+        {
+            var a = new Heatmap(128, 128);
+            var rnd = new Random();
+
+            a.AddPoint(64 - 32, 64 - 32);
+
+            var bmp = a.CreateHeatmap();
+            var c = new PngBitmapEncoder();
+            c.Frames.Add(BitmapFrame.Create(bmp));
+
+            using (var fs = File.OpenWrite("test.png"))
+                c.Save(fs);
+
+            Process.Start("test.png");
         }
     }
 }

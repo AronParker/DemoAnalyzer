@@ -96,12 +96,12 @@
 
                 <local:Killfeed Grid.ColumnSpan="3" x:Name="killfeed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="5"/>
 
-                <Button Grid.Row="2" Grid.ColumnSpan="3" Margin="10" Height="40">Generate Heat map</Button>
-                <Button Grid.Row="3" Grid.ColumnSpan="3" Margin="10" Height="40">Generate Sight heat map</Button>
-                <Button Grid.Row="4" Grid.ColumnSpan="3" Margin="10" Height="40">Analyze player positions</Button>
-                <Button Grid.Row="5" Grid.ColumnSpan="3" Margin="10" Height="40">Analyze player accuracy</Button>
-                <Button Grid.Row="6" Grid.ColumnSpan="3" Margin="10" Height="40">Analyze player patience</Button>
-                <Button Grid.Row="7" Grid.ColumnSpan="3" Margin="10,10,10,50" Height="40">Analyze player weapons</Button>
+                <Button Grid.Row="2" Grid.ColumnSpan="3" Margin="10" Height="40" Click="HeatmapButton_Click">Generate Heat map</Button>
+                <Button Grid.Row="3" Grid.ColumnSpan="3" Margin="10" Height="40" IsEnabled="False">Generate Sight heat map</Button>
+                <Button Grid.Row="4" Grid.ColumnSpan="3" Margin="10" Height="40" IsEnabled="False">Analyze player positions</Button>
+                <Button Grid.Row="5" Grid.ColumnSpan="3" Margin="10" Height="40" IsEnabled="False">Analyze player accuracy</Button>
+                <Button Grid.Row="6" Grid.ColumnSpan="3" Margin="10" Height="40" IsEnabled="False">Analyze player patience</Button>
+                <Button Grid.Row="7" Grid.ColumnSpan="3" Margin="10,10,10,50" Height="40" IsEnabled="False">Analyze player weapons</Button>
 
                 <Button Margin="5" Grid.Column="0" Grid.Row="8" Click="SkipPrevButton_Click">
                     <Image Margin="10" Source="assets/icons/skip_prev.png"/>
