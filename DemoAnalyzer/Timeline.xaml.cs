@@ -45,6 +45,8 @@ namespace DemoAnalyzer
                 }
             }
         }
+        public int SelectionStart => selection.Visibility == Visibility.Visible ? _selectionStart : -1;
+        public int SelectionEnd => selection.Visibility == Visibility.Visible ? _selectionEnd : -1;
 
         public event EventHandler PlaybackPositionChanged;
 
@@ -158,8 +160,6 @@ namespace DemoAnalyzer
 
                 RepositionRounds(false, true);
             }
-
-            
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -235,7 +235,7 @@ namespace DemoAnalyzer
                 var start = Math.Min(_selectionStart, _selectionEnd);
                 var end = Math.Max(_selectionStart, _selectionEnd);
 
-                if (end - start >= 1000)
+                if (end - start >= 500)
                 {
                     var startCanvasPosition = TickToCanvasPosition(start);
                     var endCanvasPosition = TickToCanvasPosition(end);
@@ -257,8 +257,6 @@ namespace DemoAnalyzer
                 hover.X1 = canvasPosition;
                 hover.X2 = canvasPosition;
             }
-
-
         }
 
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)

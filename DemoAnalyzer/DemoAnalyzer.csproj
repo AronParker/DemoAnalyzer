@@ -75,6 +75,9 @@
     <Compile Include="Data\PlayerState.cs" />
     <Compile Include="Data\PlayerStatistics.cs" />
     <Compile Include="Data\RoundInfo.cs" />
+    <Compile Include="HeatmapWindow.xaml.cs">
+      <DependentUpon>HeatmapWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Killfeed.xaml.cs">
       <DependentUpon>Killfeed.xaml</DependentUpon>
     </Compile>
@@ -89,6 +92,10 @@
     <Compile Include="Timeline.xaml.cs">
       <DependentUpon>Timeline.xaml</DependentUpon>
     </Compile>
+    <Page Include="HeatmapWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Killfeed.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

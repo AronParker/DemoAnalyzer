@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -252,7 +253,30 @@ TotalCashSpent: {playerInfo.Statistics.TotalCashSpent}
 
         private void HeatmapButton_Click(object sender, RoutedEventArgs e)
         {
-            var a = new Heatmap(128, 128);
+            var selectionStart = timeline.SelectionStart;
+            var selectionEnd = timeline.SelectionEnd;
+
+            if (selectionStart == -1 || selectionEnd == -1)
+            {
+                MessageBox.Show("You must make a selection in the timeline. You can do so by holding your left mouse button and dragging it over the timeline.", "Heatmap generation", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var selectedPlayers = playersLV.SelectedItems.Cast<PlayerListViewItem>().Select(x => x.EntityID).ToHashSet();
+
+            if (selectedPlayers.Count == 0)
+            {
+                MessageBox.Show("No players selected. You must at least select one player to make a heatmap.", "Heatmap generation", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            using (var cts = new CancellationTokenSource())
+            {
+                var a = new HeatmapWindow(cts, _demo, selectedPlayers, selectionStart, selectionEnd, minimap);
+                var b = a.ShowDialog();
+            }
+
+            /*var a = new Heatmap(128, 128);
             var rnd = new Random();
 
             a.AddPoint(64 - 32, 64 - 32);
@@ -264,7 +288,7 @@ TotalCashSpent: {playerInfo.Statistics.TotalCashSpent}
             using (var fs = File.OpenWrite("test.png"))
                 c.Save(fs);
 
-            Process.Start("test.png");
+            Process.Start("test.png");*/
         }
     }
 }

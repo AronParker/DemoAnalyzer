@@ -11,7 +11,6 @@ namespace DemoAnalyzer.Tools
     public class Heatmap : IDisposable
     {
         private HeatmapSafeHandle heatmap;
-        private HeatmapStampSafeHandle stamp;
         private bool disposedValue;
 
         public int Width { get; }
@@ -85,7 +84,6 @@ namespace DemoAnalyzer.Tools
                 if (disposing)
                 {
                     heatmap.Dispose();
-                    stamp.Dispose();
                 }
 
                 disposedValue = true;

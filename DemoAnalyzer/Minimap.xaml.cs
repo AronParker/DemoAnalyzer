@@ -216,7 +216,7 @@ namespace DemoAnalyzer
                 _renderInfos.Remove(key);
         }
 
-        private System.Windows.Vector WorldSpaceToScreenSpace(System.Windows.Vector worldSpace)
+        public System.Windows.Vector WorldSpaceToScreenSpace(System.Windows.Vector worldSpace)
         {
             var distanceFromTopLeft = new System.Windows.Vector(worldSpace.X - _minimapPosX, _minimapPosY - worldSpace.Y);
             
