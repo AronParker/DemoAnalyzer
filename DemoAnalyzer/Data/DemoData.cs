@@ -14,9 +14,12 @@ namespace DemoAnalyzer.Data
         public IReadOnlyList<RoundInfo> Rounds => _rounds;
 
         public int LastTick { get; private set; }
+        public string MapName { get; private set; }
 
         public void Parse(DemoParser parser)
         {
+            MapName = parser.Header.MapName;
+
             _playerData.Clear();
             _playerKills.Kills.Clear();
             _playerKills.KillsTicks.Clear();

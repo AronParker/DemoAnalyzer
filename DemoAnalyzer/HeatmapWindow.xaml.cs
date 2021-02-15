@@ -42,13 +42,15 @@ namespace DemoAnalyzer
             this.selectionEnd = selectionEnd;
             this.minimap = minimap;
 
+            minimapImage.Source = Minimap.GetMinimapBackground(demo.MapName);
+
             _cts = cts;
             _ct = cts.Token;
             _task = Task.Run(() =>
             {
                 using (var heatmap = new Heatmap(1024, 1024))
+                using (var stroke = new HeatmapStamp(32))
                 {
-
                     for (int i = selectionStart; i <= selectionEnd; i++)
                     {
                         _ct.ThrowIfCancellationRequested();
@@ -60,20 +62,20 @@ namespace DemoAnalyzer
 
                             var realPos = minimap.WorldSpaceToScreenSpace(new Vector(player.Position.PositionX, player.Position.PositionY));
 
-                            heatmap.AddPoint((int)realPos.X, (int)realPos.Y);
+                            heatmap.AddPoint((int)realPos.X, (int)realPos.Y, stroke);
                         }
 
                         var percentage = (double)(i - selectionStart) / (selectionEnd - selectionStart);
 
                         Dispatcher.Invoke(() =>
                         {
-                            Title = percentage.ToString();
+                            progressBar.Value = percentage;
                         });
                     }
 
                     Dispatcher.Invoke(() =>
                     {
-                        Background = new ImageBrush(heatmap.CreateHeatmap());
+                        heatmapImage.Source = heatmap.CreateHeatmap();
                     });
                 }
 

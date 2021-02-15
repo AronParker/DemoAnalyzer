@@ -232,12 +232,17 @@ namespace DemoAnalyzer
             return new System.Windows.Vector(newX, newY);
         }
 
-        private static ImageBrush GetCanvasBackground(string mapName)
+        public static ImageBrush GetCanvasBackground(string mapName)
+        {
+            return new ImageBrush(GetMinimapBackground(mapName));
+        }
+
+        public static BitmapImage GetMinimapBackground(string mapName)
         {
             //$"pack://application:,,,/DemoAnalyzer;component/assets/{mapName}_radar_spectate.dds"
 
             var uri = new Uri($"assets/minimaps/{mapName}_radar_spectate.dds", UriKind.Relative);
-            return new ImageBrush(new BitmapImage(uri));
+            return new BitmapImage(uri);
         }
 
         private static Brush GetFillColor(bool selected, Team team)

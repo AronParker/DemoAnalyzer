@@ -67,7 +67,6 @@ namespace DemoAnalyzer
                 _playTimer.Stop();
                 playImage.Source = _pauseImageSource;
             }
-
         }
 
         private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
