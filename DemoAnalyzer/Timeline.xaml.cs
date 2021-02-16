@@ -104,6 +104,9 @@ namespace DemoAnalyzer
 
         public void Deinit()
         {
+            _playbackPosition = 0;
+            _selectionStart = 0;
+            _selectionEnd = 0;
             _lastTick = 0;
 
             hover.Visibility = Visibility.Hidden;

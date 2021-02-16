@@ -28,6 +28,7 @@
                 <Separator />
                 <MenuItem Header="_Save" />
                 <MenuItem Header="_Save As..." />
+                <MenuItem Header="_Close demo" Click="CloseMenuItem_Click" />
                 <Separator />
                 <MenuItem Header="_Exit" />
             </MenuItem>

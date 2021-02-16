@@ -48,8 +48,10 @@ namespace DemoAnalyzer
             _ct = cts.Token;
             _task = Task.Run(() =>
             {
+                var counter = 0;
+
                 using (var heatmap = new Heatmap(1024, 1024))
-                using (var stroke = new HeatmapStamp(32))
+                using (var stroke = new HeatmapStamp(16))
                 {
                     for (int i = selectionStart; i <= selectionEnd; i++)
                     {
@@ -60,6 +62,12 @@ namespace DemoAnalyzer
                             if (!selectedPlayers.Contains(player.EntityID))
                                 continue;
 
+                            if (player.State.Team == DemoInfo.Team.Spectate)
+                                continue;
+
+                            if (!player.State.IsAlive)
+                                continue;
+
                             var realPos = minimap.WorldSpaceToScreenSpace(new Vector(player.Position.PositionX, player.Position.PositionY));
 
                             heatmap.AddPoint((int)realPos.X, (int)realPos.Y, stroke);
@@ -67,10 +75,14 @@ namespace DemoAnalyzer
 
                         var percentage = (double)(i - selectionStart) / (selectionEnd - selectionStart);
 
-                        Dispatcher.Invoke(() =>
+                        if ((++counter & 0xF) == 0)
                         {
-                            progressBar.Value = percentage;
-                        });
+                            Dispatcher.Invoke(() =>
+                            {
+                                progressBar.Value = percentage;
+                            });
+                        }
+
                     }
 
                     Dispatcher.Invoke(() =>

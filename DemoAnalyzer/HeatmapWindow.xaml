@@ -24,6 +24,6 @@
         <Image x:Name="minimapImage" Grid.Column="0" Grid.Row="0" Stretch="Uniform" Opacity="{Binding ElementName=minimapOpacitySlider, Path=Value}"/>
         <Image x:Name="heatmapImage" Grid.Column="0" Grid.Row="0" Stretch="Uniform" Opacity="{Binding ElementName=heatmapOpacitySlider, Path=Value}"/>
 
-        <ProgressBar x:Name="progressBar" Height="50" Grid.Row="1" Maximum="1" Grid.ColumnSpan="2"/>
+        <ProgressBar Margin="5" x:Name="progressBar" Height="50" Grid.Row="1" Maximum="1" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>

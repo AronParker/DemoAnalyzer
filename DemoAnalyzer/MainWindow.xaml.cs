@@ -289,5 +289,10 @@ TotalCashSpent: {playerInfo.Statistics.TotalCashSpent}
 
             Process.Start("test.png");*/
         }
+
+        private void CloseMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
