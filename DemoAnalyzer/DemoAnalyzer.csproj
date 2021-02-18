@@ -76,6 +76,7 @@
     <Compile Include="Data\PlayerState.cs" />
     <Compile Include="Data\PlayerStatistics.cs" />
     <Compile Include="Data\RoundInfo.cs" />
+    <Compile Include="Tools\Assets.cs" />
     <Compile Include="View\HeatmapWindow.xaml.cs">
       <DependentUpon>HeatmapWindow.xaml</DependentUpon>
     </Compile>

@@ -81,12 +81,6 @@ namespace DemoAnalyzer
                 {
                     parser.ParseHeader();
 
-                    if (!minimap.LoadMap(parser.Header.MapName))
-                    {
-                        MessageBox.Show("The demo file selected is played on a map which is not yet supported by the Demo Analyzer.", "Map not supported", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                    }
-
                     try
                     {
                         _demo.Parse(parser);
@@ -96,6 +90,7 @@ namespace DemoAnalyzer
                         MessageBox.Show($"Failed to load demo: {ex.Message}", "Unable to load demo", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
 
+                    minimap.LoadMap(parser.Header.MapName);
                     timeline.Init(_demo.Rounds, _demo.LastTick);
                 }
             }
@@ -110,7 +105,7 @@ namespace DemoAnalyzer
 
             foreach (var playerInfo in _demo.ReadPlayerInfos(timeline.PlaybackPosition))
             {
-                minimap.UpdatePlayer(playerInfo);
+                minimap.UpdatePlayer(playerInfo, _demo);
                 UpdatePlayerListPlayer(playerInfo);
 
                 if (_selectedPlayers.Contains(playerInfo.EntityID))
@@ -278,7 +273,7 @@ TotalCashSpent: {playerInfo.Statistics.TotalCashSpent}
 
             using (var cts = new CancellationTokenSource())
             {
-                var a = new HeatmapWindow(cts, _demo, selectedPlayers, selectionStart, selectionEnd, minimap);
+                var a = new HeatmapWindow(cts, _demo, selectedPlayers, selectionStart, selectionEnd);
                 var b = a.ShowDialog();
             }
 

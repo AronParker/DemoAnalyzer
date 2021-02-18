@@ -30,9 +30,8 @@ namespace DemoAnalyzer
         private HashSet<int> selectedPlayers;
         private int selectionStart;
         private int selectionEnd;
-        private Minimap minimap;
 
-        public HeatmapWindow(CancellationTokenSource cts, DemoData demo, HashSet<int> selectedPlayers, int selectionStart, int selectionEnd, Minimap minimap)
+        public HeatmapWindow(CancellationTokenSource cts, DemoData demo, HashSet<int> selectedPlayers, int selectionStart, int selectionEnd)
         {
             InitializeComponent();
 
@@ -40,9 +39,8 @@ namespace DemoAnalyzer
             this.selectedPlayers = selectedPlayers;
             this.selectionStart = selectionStart;
             this.selectionEnd = selectionEnd;
-            this.minimap = minimap;
 
-            minimapImage.Source = Minimap.GetMinimapBackground(demo.MapName);
+            minimapImage.Source = Assets.GetMinimap(demo.MapName);
 
             _cts = cts;
             _ct = cts.Token;
@@ -68,7 +66,7 @@ namespace DemoAnalyzer
                             if (!player.State.IsAlive)
                                 continue;
 
-                            var realPos = minimap.WorldSpaceToScreenSpace(new Vector(player.Position.PositionX, player.Position.PositionY));
+                            var realPos = demo.WorldSpaceToMinimapSpace(new Vector(player.Position.PositionX, player.Position.PositionY));
 
                             heatmap.AddPoint((int)realPos.X, (int)realPos.Y, stroke);
                         }

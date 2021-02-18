@@ -1,4 +1,5 @@
 ﻿using DemoAnalyzer.Data;
+using DemoAnalyzer.Tools;
 using DemoInfo;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,6 @@ namespace DemoAnalyzer
     public partial class Minimap : UserControl
     {
         private static CombinedGeometry s_cross;
-
-        private double _minimapPosX;
-        private double _minimapPosY;
-        private double _minimapScale;
 
         private Dictionary<int, PlayerRenderInfo> _renderInfos = new Dictionary<int, PlayerRenderInfo>();
 
@@ -42,51 +39,9 @@ namespace DemoAnalyzer
 
         public HashSet<int> SelectedPlayers { get; set; }
 
-        public bool LoadMap(string mapName)
+        public void LoadMap(string mapName)
         {
-            switch (mapName)
-            {
-                case "de_cache":
-                    _minimapPosX = -2000;
-                    _minimapPosY = 3250;
-                    _minimapScale = 5.5;
-                    break;
-                case "de_dust2":
-                    _minimapPosX = -2476;
-                    _minimapPosY = 3239;
-                    _minimapScale = 4.4;
-                    break;
-                case "de_inferno":
-                    _minimapPosX = -2087;
-                    _minimapPosY = 3870;
-                    _minimapScale = 4.9;
-                    break;
-                case "de_mirage":
-                    _minimapPosX = -3230;
-                    _minimapPosY = 1713;
-                    _minimapScale = 5.00;
-                    break;
-                case "de_nuke":
-                    _minimapPosX = -3453;
-                    _minimapPosY = 2887;
-                    _minimapScale = 7;
-                    break;
-                case "de_train":
-                    _minimapPosX = -2477;
-                    _minimapPosY = 2392;
-                    _minimapScale = 4.7;
-                    break;
-                case "de_vertigo":
-                    _minimapPosX = -3168;
-                    _minimapPosY = 1762;
-                    _minimapScale = 4.0;
-                    break;
-                default:
-                    return false;
-            }
-
-            canvas.Background = GetCanvasBackground(mapName);
-            return true;
+            canvas.Background = new ImageBrush(Assets.GetMinimap(mapName));
         }
 
         public void BeginUpdate()
@@ -94,7 +49,7 @@ namespace DemoAnalyzer
             ResetUsedRenderInfos();
         }
 
-        public void UpdatePlayer(Data.PlayerInfo player)
+        public void UpdatePlayer(Data.PlayerInfo player, DemoData demo)
         {
             var isSpectator = player.State.Team <= DemoInfo.Team.Spectate;
 
@@ -102,7 +57,7 @@ namespace DemoAnalyzer
                 return;
 
             var renderInfo = GetOrCreateRenderInfo(player.EntityID);
-            var playerPos = WorldSpaceToScreenSpace(new System.Windows.Vector(player.Position.PositionX, player.Position.PositionY));
+            var playerPos = demo.WorldSpaceToMinimapSpace(new System.Windows.Vector(player.Position.PositionX, player.Position.PositionY));
 
             var selected = SelectedPlayers.Contains(player.EntityID);
             var team = player.State.Team;
@@ -216,13 +171,6 @@ namespace DemoAnalyzer
                 _renderInfos.Remove(key);
         }
 
-        public System.Windows.Vector WorldSpaceToScreenSpace(System.Windows.Vector worldSpace)
-        {
-            var distanceFromTopLeft = new System.Windows.Vector(worldSpace.X - _minimapPosX, _minimapPosY - worldSpace.Y);
-            
-            return distanceFromTopLeft / _minimapScale;
-        }
-
         private static System.Windows.Vector CreateVectorFromRotation(float distance, float angle)
         {
             var radians = angle * Math.PI / 180.0;
@@ -230,19 +178,6 @@ namespace DemoAnalyzer
             var newY = distance * (float)-Math.Sin(radians);
 
             return new System.Windows.Vector(newX, newY);
-        }
-
-        public static ImageBrush GetCanvasBackground(string mapName)
-        {
-            return new ImageBrush(GetMinimapBackground(mapName));
-        }
-
-        public static BitmapImage GetMinimapBackground(string mapName)
-        {
-            //$"pack://application:,,,/DemoAnalyzer;component/assets/{mapName}_radar_spectate.dds"
-
-            var uri = new Uri($"assets/minimaps/{mapName}_radar_spectate.dds", UriKind.Relative);
-            return new BitmapImage(uri);
         }
 
         private static Brush GetFillColor(bool selected, Team team)
