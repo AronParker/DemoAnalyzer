@@ -73,10 +73,10 @@ namespace DemoAnalyzer
                             heatmap.AddPoint((int)realPos.X, (int)realPos.Y, stroke);
                         }
 
-                        var percentage = (double)(i - selectionStart) / (selectionEnd - selectionStart);
-
                         if ((++counter & 0xF) == 0)
                         {
+                            var percentage = (double)(i - selectionStart) / (selectionEnd - selectionStart);
+
                             Dispatcher.Invoke(() =>
                             {
                                 progressBar.Value = percentage;
