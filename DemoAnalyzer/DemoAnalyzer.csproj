@@ -67,6 +67,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\DemoData.cs" />
+    <Compile Include="Data\DemoDataException.cs" />
     <Compile Include="Data\PlayerData.cs" />
     <Compile Include="Data\PlayerInfo.cs" />
     <Compile Include="Data\PlayerKill.cs" />
@@ -75,13 +76,13 @@
     <Compile Include="Data\PlayerState.cs" />
     <Compile Include="Data\PlayerStatistics.cs" />
     <Compile Include="Data\RoundInfo.cs" />
-    <Compile Include="HeatmapWindow.xaml.cs">
+    <Compile Include="View\HeatmapWindow.xaml.cs">
       <DependentUpon>HeatmapWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Killfeed.xaml.cs">
+    <Compile Include="View\Killfeed.xaml.cs">
       <DependentUpon>Killfeed.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Minimap.xaml.cs">
+    <Compile Include="View\Minimap.xaml.cs">
       <DependentUpon>Minimap.xaml</DependentUpon>
     </Compile>
     <Compile Include="NativeMethods.cs" />
@@ -89,18 +90,18 @@
     <Compile Include="Tools\HeatmapStamp.cs" />
     <Compile Include="ViewModel\PlayerListViewItem.cs" />
     <Compile Include="TeamToColorConverter.cs" />
-    <Compile Include="Timeline.xaml.cs">
+    <Compile Include="View\Timeline.xaml.cs">
       <DependentUpon>Timeline.xaml</DependentUpon>
     </Compile>
-    <Page Include="HeatmapWindow.xaml">
+    <Page Include="View\HeatmapWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Killfeed.xaml">
+    <Page Include="View\Killfeed.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -108,15 +109,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Minimap.xaml">
+    <Page Include="View\Minimap.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Timeline.xaml">
+    <Page Include="View\Timeline.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

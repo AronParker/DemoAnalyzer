@@ -87,7 +87,14 @@ namespace DemoAnalyzer
                         return;
                     }
 
-                    _demo.Parse(parser);
+                    try
+                    {
+                        _demo.Parse(parser);
+                    }
+                    catch (DemoDataException ex)
+                    {
+                        MessageBox.Show($"Failed to load demo: {ex.Message}", "Unable to load demo", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
 
                     timeline.Init(_demo.Rounds, _demo.LastTick);
                 }

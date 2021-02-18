@@ -15,10 +15,13 @@ namespace DemoAnalyzer.Data
 
         public int LastTick { get; private set; }
         public string MapName { get; private set; }
+        public double MinimapOffsetX { get; private set; }
+        public double MinimapOffsetY { get; private set; }
+        public double MinimapScale { get; private set; }
 
         public void Parse(DemoParser parser)
         {
-            MapName = parser.Header.MapName;
+            LoadMap(parser.Header.MapName);
 
             _playerData.Clear();
             _playerKills.Kills.Clear();
@@ -158,6 +161,20 @@ namespace DemoAnalyzer.Data
             LastTick = parser.IngameTick;
         }
 
+        public System.Windows.Vector WorldSpaceToMinimapSpace(System.Windows.Vector worldSpace)
+        {
+            var distanceFromTopLeft = new System.Windows.Vector(worldSpace.X - MinimapOffsetX, MinimapOffsetY - worldSpace.Y);
+
+            return distanceFromTopLeft / MinimapScale;
+        }
+
+        public System.Windows.Vector MinimapSpaceToWorldSpace(System.Windows.Vector minimapSpace)
+        {
+            minimapSpace *= MinimapScale;
+
+            return new System.Windows.Vector(minimapSpace.X + MinimapOffsetX, -minimapSpace.Y + MinimapOffsetY);
+        }
+
         public IEnumerable<PlayerInfo> ReadPlayerInfos(int tick)
         {
             foreach (var kvp in _playerData)
@@ -220,6 +237,52 @@ namespace DemoAnalyzer.Data
                 return idx;
 
             return ~idx - 1;
+        }
+
+        private void LoadMap(string mapName)
+        {
+            switch (mapName)
+            {
+                case "de_cache":
+                    MinimapOffsetX = -2000;
+                    MinimapOffsetY = 3250;
+                    MinimapScale = 5.5;
+                    break;
+                case "de_dust2":
+                    MinimapOffsetX = -2476;
+                    MinimapOffsetY = 3239;
+                    MinimapScale = 4.4;
+                    break;
+                case "de_inferno":
+                    MinimapOffsetX = -2087;
+                    MinimapOffsetY = 3870;
+                    MinimapScale = 4.9;
+                    break;
+                case "de_mirage":
+                    MinimapOffsetX = -3230;
+                    MinimapOffsetY = 1713;
+                    MinimapScale = 5.00;
+                    break;
+                case "de_nuke":
+                    MinimapOffsetX = -3453;
+                    MinimapOffsetY = 2887;
+                    MinimapScale = 7;
+                    break;
+                case "de_train":
+                    MinimapOffsetX = -2477;
+                    MinimapOffsetY = 2392;
+                    MinimapScale = 4.7;
+                    break;
+                case "de_vertigo":
+                    MinimapOffsetX = -3168;
+                    MinimapOffsetY = 1762;
+                    MinimapScale = 4.0;
+                    break;
+                default:
+                    throw new DemoDataException("Unsupported map.");
+            }
+
+            MapName = mapName;
         }
     }
 }
