@@ -29,6 +29,11 @@ namespace DemoAnalyzer
             _weapons = new[] { dn1Weapon, dn2Weapon, dn3Weapon, dn4Weapon, dn5Weapon };
             _victims = new[] { dn1Victim, dn2Victim, dn3Victim, dn4Victim, dn5Victim };
 
+            Reset();
+        }
+
+        public void Reset()
+        {
             foreach (var dn in _deathNotices)
                 dn.Visibility = Visibility.Hidden;
         }

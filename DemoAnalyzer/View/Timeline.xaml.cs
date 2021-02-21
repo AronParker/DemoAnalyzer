@@ -102,7 +102,7 @@ namespace DemoAnalyzer
             }
         }
 
-        public void Deinit()
+        public void Reset()
         {
             _playbackPosition = 0;
             _selectionStart = 0;
@@ -113,7 +113,9 @@ namespace DemoAnalyzer
             playback.Visibility = Visibility.Hidden;
             selection.Visibility = Visibility.Hidden;
 
-            canvas.Children.RemoveRange(0, _lines.Length);
+            if (_lines != null)
+                canvas.Children.RemoveRange(0, _lines.Length);
+
             _rounds = null;
             _lines = null;
         }

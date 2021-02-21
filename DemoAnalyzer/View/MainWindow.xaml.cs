@@ -71,6 +71,8 @@ namespace DemoAnalyzer
 
         private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            Reset();
+
             var ofd = new OpenFileDialog();
             ofd.Filter = "Demo files (*.dem)|*.dem";
             ofd.FileName = @"C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo\broadcast.dem";
@@ -194,6 +196,11 @@ TotalCashSpent: {playerInfo.Statistics.TotalCashSpent}
                     _playerList.RemoveAt(i);
         }
 
+        private void ResetPlayerList()
+        {
+            _playerList.Clear();
+        }
+
         private void playersLV_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             foreach (var added in e.AddedItems)
@@ -222,7 +229,6 @@ TotalCashSpent: {playerInfo.Statistics.TotalCashSpent}
             if (selectedRound.StartTick != 0)
                 timeline.PlaybackPosition = selectedRound.StartTick;
         }
-
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
@@ -294,7 +300,17 @@ TotalCashSpent: {playerInfo.Statistics.TotalCashSpent}
 
         private void CloseMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            Reset();
+        }
 
+        private void Reset()
+        {
+            timeline.Reset();
+            killfeed.Reset();
+            minimap.Reset();
+            playerInfos.Text = "";
+            _demo.Reset();
+            ResetPlayerList();
         }
     }
 }

@@ -19,8 +19,24 @@ namespace DemoAnalyzer.Data
         public double MinimapOffsetY { get; private set; }
         public double MinimapScale { get; private set; }
 
+        public void Reset()
+        {
+            _playerData.Clear();
+            _playerKills.Kills.Clear();
+            _playerKills.KillsTicks.Clear();
+            _rounds.Clear();
+
+            LastTick = 0;
+            MapName = null;
+            MinimapOffsetX = 0.0;
+            MinimapOffsetY = 0.0;
+            MinimapScale = 0.0;
+        }
+
         public void Parse(DemoParser parser)
         {
+            Reset();
+
             LoadMap(parser.Header.MapName);
 
             _playerData.Clear();

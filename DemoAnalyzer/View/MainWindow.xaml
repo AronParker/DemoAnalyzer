@@ -53,7 +53,7 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock VerticalAlignment="Center" FontSize="18" Foreground="{Binding Team, Converter={StaticResource test}, ConverterParameter=body}" Text="{Binding Name}" Margin="5,0,5,0" />
-                                <Image Stretch="Uniform" Height="18" Source="assets/deathnotice/icon-suicide.png" Visibility="{Binding Dead, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <Image Stretch="Uniform" Height="18" Source="../assets/deathnotice/icon-suicide.png" Visibility="{Binding Dead, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -105,13 +105,13 @@
                 <Button Grid.Row="7" Grid.ColumnSpan="3" Margin="10,10,10,50" Height="40" IsEnabled="False">Analyze player weapons</Button>
 
                 <Button Margin="5" Grid.Column="0" Grid.Row="8" Click="SkipPrevButton_Click">
-                    <Image Margin="10" Source="assets/icons/skip_prev.png"/>
+                    <Image Margin="10" Source="../assets/icons/skip_prev.png"/>
                 </Button>
                 <Button Margin="5" Grid.Column="1" Grid.Row="8" Click="PlayButton_Click">
-                    <Image x:Name="playImage" Margin="10" Source="assets/icons/play.png"/>
+                    <Image x:Name="playImage" Margin="10" Source="../assets/icons/play.png"/>
                 </Button>
                 <Button Margin="5" Grid.Column="2" Grid.Row="8" Click="SkipNextButton_Click">
-                    <Image Margin="10" Source="assets/icons/skip_next.png"/>
+                    <Image Margin="10" Source="../assets/icons/skip_next.png"/>
                 </Button>
             </Grid>
         </Grid>

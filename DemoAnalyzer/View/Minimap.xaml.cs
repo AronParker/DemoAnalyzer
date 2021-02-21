@@ -171,6 +171,16 @@ namespace DemoAnalyzer
                 _renderInfos.Remove(key);
         }
 
+        public void Reset()
+        {
+            canvas.Background = null;
+
+            foreach (var value in _renderInfos.Values)
+                value.Used = false;
+
+            RemoveUnusedRenderInfos();
+        }
+
         private static System.Windows.Vector CreateVectorFromRotation(float distance, float angle)
         {
             var radians = angle * Math.PI / 180.0;
