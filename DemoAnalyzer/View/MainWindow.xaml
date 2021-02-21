@@ -47,8 +47,14 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="0" Orientation="Vertical" Background="Black">
-                <ListView Name="playersLV" Background="Black" HorizontalAlignment="Stretch" Padding="10" SelectionChanged="playersLV_SelectionChanged" BorderThickness="0">
+            <Grid Grid.Column="0" Background="Black">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <ListView Name="playersLV" Background="Black" HorizontalAlignment="Stretch" Padding="10" SelectionChanged="playersLV_SelectionChanged" Grid.Row="0" BorderThickness="0">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -68,9 +74,9 @@
                         </GroupStyle>
                     </ListView.GroupStyle>
                 </ListView>
-                <Separator/>
-                <TextBlock x:Name="playerInfos" Background="Black" Foreground="White" Padding="10" TextWrapping="Wrap" FontSize="16" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-            </StackPanel>
+                <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#444"/>
+                <TextBlock Grid.Row="2" x:Name="playerInfos" Background="Black" Foreground="White" Padding="10" TextWrapping="Wrap" FontSize="16" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            </Grid>
             
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#444"/>
             <local:Minimap x:Name="minimap" Grid.Column="2"/>
