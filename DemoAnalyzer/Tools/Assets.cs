@@ -13,8 +13,8 @@ namespace DemoAnalyzer.Tools
         {
             // If minimaps are embedded as resource, the Uri is as follows:
             // $"pack://application:,,,/DemoAnalyzer;component/assets/{mapName}_radar_spectate.dds"
-
-            var uri = new Uri($"assets/minimaps/{mapName}_radar_spectate.dds", UriKind.Relative);
+            
+            var uri = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}assets/minimaps/{mapName}_radar_spectate.dds", UriKind.Absolute);
             return new BitmapImage(uri);
         }
     }
