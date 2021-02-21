@@ -77,6 +77,9 @@
     <Compile Include="Data\PlayerStatistics.cs" />
     <Compile Include="Data\RoundInfo.cs" />
     <Compile Include="Tools\Assets.cs" />
+    <Compile Include="View\HeatmapCreationDialog.xaml.cs">
+      <DependentUpon>HeatmapCreationDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\HeatmapWindow.xaml.cs">
       <DependentUpon>HeatmapWindow.xaml</DependentUpon>
     </Compile>
@@ -94,6 +97,10 @@
     <Compile Include="View\Timeline.xaml.cs">
       <DependentUpon>Timeline.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\HeatmapCreationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\HeatmapWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -428,6 +435,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\deathnotice\smoke_kill.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\heatmaps\large.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\heatmaps\medium.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\heatmaps\small.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\icons\pause.png">

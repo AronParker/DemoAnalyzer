@@ -18,8 +18,8 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Slider x:Name="minimapOpacitySlider" Orientation="Vertical" Grid.Column="1" Grid.Row="0" Value="1" Maximum="1"/>
-        <Slider x:Name="heatmapOpacitySlider" Orientation="Vertical" Grid.Column="2" Grid.Row="0" Value="1" Maximum="1"/>
+        <Slider x:Name="minimapOpacitySlider" Orientation="Vertical" Grid.Column="1" Grid.Row="0" Value=".8" Maximum="1"/>
+        <Slider x:Name="heatmapOpacitySlider" Orientation="Vertical" Grid.Column="2" Grid.Row="0" Value=".8" Maximum="1"/>
 
         <Image x:Name="minimapImage" Grid.Column="0" Grid.Row="0" Stretch="Uniform" Opacity="{Binding ElementName=minimapOpacitySlider, Path=Value}"/>
         <Image x:Name="heatmapImage" Grid.Column="0" Grid.Row="0" Stretch="Uniform" Opacity="{Binding ElementName=heatmapOpacitySlider, Path=Value}"/>

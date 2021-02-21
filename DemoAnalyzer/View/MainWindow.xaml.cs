@@ -1,5 +1,6 @@
 ﻿using DemoAnalyzer.Data;
 using DemoAnalyzer.Tools;
+using DemoAnalyzer.View;
 using DemoAnalyzer.ViewModel;
 using DemoInfo;
 using Microsoft.Win32;
@@ -277,25 +278,17 @@ TotalCashSpent: {playerInfo.Statistics.TotalCashSpent}
                 return;
             }
 
+            var heatmapCreationDialog = new HeatmapCreationDialog();
+
+            if (heatmapCreationDialog.ShowDialog() != true)
+                return;
+
             using (var cts = new CancellationTokenSource())
             {
-                var a = new HeatmapWindow(cts, _demo, selectedPlayers, selectionStart, selectionEnd);
-                var b = a.ShowDialog();
+                var stampSize = Math.Round((1.0 / _demo.MinimapScale) * heatmapCreationDialog.HeatmapFactor);
+                var heatmapWindow = new HeatmapWindow(cts, _demo, selectedPlayers, selectionStart, selectionEnd, (int)stampSize);
+                heatmapWindow.ShowDialog();
             }
-
-            /*var a = new Heatmap(128, 128);
-            var rnd = new Random();
-
-            a.AddPoint(64 - 32, 64 - 32);
-
-            var bmp = a.CreateHeatmap();
-            var c = new PngBitmapEncoder();
-            c.Frames.Add(BitmapFrame.Create(bmp));
-
-            using (var fs = File.OpenWrite("test.png"))
-                c.Save(fs);
-
-            Process.Start("test.png");*/
         }
 
         private void CloseMenuItem_Click(object sender, RoutedEventArgs e)

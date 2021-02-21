@@ -31,7 +31,7 @@ namespace DemoAnalyzer
         private int selectionStart;
         private int selectionEnd;
 
-        public HeatmapWindow(CancellationTokenSource cts, DemoData demo, HashSet<int> selectedPlayers, int selectionStart, int selectionEnd)
+        public HeatmapWindow(CancellationTokenSource cts, DemoData demo, HashSet<int> selectedPlayers, int selectionStart, int selectionEnd, int radius)
         {
             InitializeComponent();
 
@@ -49,7 +49,7 @@ namespace DemoAnalyzer
                 var counter = 0;
 
                 using (var heatmap = new Heatmap(1024, 1024))
-                using (var stroke = new HeatmapStamp(16))
+                using (var stroke = new HeatmapStamp(radius))
                 {
                     for (int i = selectionStart; i <= selectionEnd; i++)
                     {
