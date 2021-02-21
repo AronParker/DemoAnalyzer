@@ -8,8 +8,7 @@ namespace DemoAnalyzer
 {
     public class TeamToColorConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType,
-            object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var team = (Team)value;
 
