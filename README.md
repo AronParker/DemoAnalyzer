@@ -8,6 +8,10 @@ A free and open-source tool aimed to simplify analyzing CS:GO demos for professi
 ![Example Image 2](images/image2.png)
 ![Example Image 3](images/image3.png)
 
+# Testers needed
+
+This is done as part of an university project which conducts research on how to assist players to make better decisions and gain knowledge about their opponents to prepare for their games. If you're willing to test, please get in touch with me: hl3mukkel@gmail.com
+
 # Credits
 
 * [Simple Radar](https://readtldr.gg/simpleradar)
