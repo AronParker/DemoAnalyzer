@@ -1,4 +1,4 @@
-## Note: Currently in early alpha stage
+## Note: Currently in early alpha stage, Pre-Releases coming soon.
 
 # Description
 
