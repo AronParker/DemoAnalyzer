@@ -35,7 +35,10 @@
             <MenuItem Header="_Edit" />
             <MenuItem Header="_View" />
             <MenuItem Header="_Window" />
-            <MenuItem Header="_Help" />
+            <MenuItem Header="_Help">
+                <MenuItem Header="About" Click="AboutMenuItem_Click"/>
+            </MenuItem>
+            
         </Menu>
 
         <Grid Grid.Row="1">

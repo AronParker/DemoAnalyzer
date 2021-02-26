@@ -305,5 +305,15 @@ TotalCashSpent: {playerInfo.Statistics.TotalCashSpent}
             _demo.Reset();
             ResetPlayerList();
         }
+
+        private void AboutMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(@"Credits:
+Program - Aron
+Minimaps - Simple Radar (https://readtldr.gg/simpleradar)
+Demo Format Library - StatsHelix/demoinfo (https://github.com/StatsHelix/demoinfo)
+Heatmap - lucasb-eyer/libheatmap (https://github.com/lucasb-eyer/libheatmap)
+", "About", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
     }
 }
