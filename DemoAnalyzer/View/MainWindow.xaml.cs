@@ -41,8 +41,8 @@ namespace DemoAnalyzer
             playersLV.ItemsSource = _playerList;
             minimap.SelectedPlayers = _selectedPlayers;
 
-            _playImageSource = new BitmapImage(new Uri($"assets/icons/play.png", UriKind.Relative));
-            _pauseImageSource = new BitmapImage(new Uri($"assets/icons/pause.png", UriKind.Relative));
+            _playImageSource = new BitmapImage(new Uri($"../assets/icons/play.png", UriKind.Relative));
+            _pauseImageSource = new BitmapImage(new Uri($"../assets/icons/pause.png", UriKind.Relative));
             
             _playTimer.Tick += _playTimer_Tick;
 
@@ -76,7 +76,6 @@ namespace DemoAnalyzer
 
             var ofd = new OpenFileDialog();
             ofd.Filter = "Demo files (*.dem)|*.dem";
-            ofd.FileName = @"C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo\broadcast.dem";
 
             if (ofd.ShowDialog(this) == true)
             {

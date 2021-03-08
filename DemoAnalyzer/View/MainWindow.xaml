@@ -78,7 +78,11 @@
                     </ListView.GroupStyle>
                 </ListView>
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#444"/>
-                <TextBlock Grid.Row="2" x:Name="playerInfos" Background="Black" Foreground="White" Padding="10" TextWrapping="Wrap" FontSize="16" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                <StackPanel Grid.Row="2">
+                    <TextBlock FontSize="14" Foreground="White" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="3">You can press CTRL or SHIFT to select multiple users</TextBlock>
+                    <TextBlock x:Name="playerInfos" Background="Black" Foreground="White" Padding="10" TextWrapping="Wrap" FontSize="16" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                </StackPanel>
+                
             </Grid>
             
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#444"/>

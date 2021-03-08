@@ -1,0 +1,1044 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DemoInfo</name>
+    </assembly>
+    <members>
+        <member name="E:DemoInfo.DemoParser.HeaderParsed">
+            <summary>
+            Raised once when the Header of the demo is parsed
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.MatchStarted">
+            <summary>
+            Occurs when the match started, so when the "begin_new_match"-GameEvent is dropped. 
+            This usually right before the freezetime of the 1st round. Be careful, since the players
+            usually still have warmup-money when this drops.
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.RoundAnnounceMatchStarted">
+            <summary>
+            Occurs when the first round of a new match start "round_announce_match_start"
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.RoundStart">
+            <summary>
+            Occurs when round starts, on the round_start event of the demo. Usually the players haven't spawned yet, but have recieved the money for the next round. 
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.RoundEnd">
+            <summary>
+            Occurs when round ends
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.WinPanelMatch">
+            <summary>
+            Occurs at the end of the match, when the scoreboard is shown
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.RoundFinal">
+            <summary>
+            Occurs when it's the last round of a match
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.LastRoundHalf">
+            <summary>
+            Occurs at the half of a side
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.RoundOfficiallyEnd">
+            <summary>
+            Occurs when round really ended
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.RoundMVP">
+            <summary>
+            Occurs on round end with the MVP
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.BotTakeOver">
+            <summary>
+            Occurs when a player take control of a bot
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.FreezetimeEnded">
+            <summary>
+            Occurs when freezetime ended. Raised on "round_freeze_end" 
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.TickDone">
+            <summary>
+            Occurs on the end of every tick, after the gameevents were processed and the packet-entities updated
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.PlayerKilled">
+            <summary>
+            This is raised when a player is killed. Not that the killer might be dead by the time is raised (e.g. nade-kills),
+            also note that the killed player is still alive when this is killed
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.PlayerTeam">
+            <summary>
+            Occurs when a player select a team
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.WeaponFired">
+            <summary>
+            Occurs when a weapon is fired.
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.SmokeNadeStarted">
+            <summary>
+            Occurs when smoke nade started.
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.SmokeNadeEnded">
+            <summary>
+            Occurs when smoke nade ended. 
+            Hint: When a round ends, this is *not* caĺled. 
+            Make sure to clear nades yourself at the end of rounds
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.DecoyNadeStarted">
+            <summary>
+            Occurs when decoy nade started.
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.DecoyNadeEnded">
+            <summary>
+            Occurs when decoy nade ended. 
+            Hint: When a round ends, this is *not* caĺled. 
+            Make sure to clear nades yourself at the end of rounds
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.FireNadeStarted">
+            <summary>
+            Occurs when a fire nade (incendiary / molotov) started. 
+            This currently *doesn't* contain who it threw since this is for some weird reason not networked
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.FireNadeWithOwnerStarted">
+            <summary>
+            FireNadeStarted, but with correct ThrownBy player.
+            Hint: Raised at the end of inferno_startburn tick instead of exactly when the event is parsed
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.FireNadeEnded">
+            <summary>
+            Occurs when fire nade ended.
+            Hint: When a round ends, this is *not* caĺled. 
+            Make sure to clear nades yourself at the end of rounds
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.FlashNadeExploded">
+            <summary>
+            Occurs when flash nade exploded.
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.ExplosiveNadeExploded">
+            <summary>
+            Occurs when explosive nade exploded.
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.NadeReachedTarget">
+            <summary>
+            Occurs when any nade reached it's target.
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.BombBeginPlant">
+            <summary>
+            Occurs when bomb is being planted.
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.BombAbortPlant">
+            <summary>
+            Occurs when the plant is aborted
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.BombPlanted">
+            <summary>
+            Occurs when the bomb has been planted.
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.BombDefused">
+            <summary>
+            Occurs when the bomb has been defused.
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.BombExploded">
+            <summary>
+            Occurs when bomb has exploded.
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.BombBeginDefuse">
+            <summary>
+            Occurs when someone begins to defuse the bomb.
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.BombAbortDefuse">
+            <summary>
+            Occurs when someone aborts to defuse the bomb.
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.PlayerHurt">
+            <summary>
+            Occurs when an player is attacked by another player.
+            Hint: Only occurs in GOTV-demos. 
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.Blind">
+            <summary>
+            Occurs when player is blinded by flashbang
+            Hint: The order of the blind event and FlashNadeExploded event is not always the same
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.PlayerBind">
+            <summary>
+            Occurs when the player object is first updated to reference all the necessary information
+            Hint: Event will be raised when any player with a SteamID connects, not just PlayingParticipants
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.PlayerDisconnect">
+            <summary>
+            Occurs when a player disconnects from the server. 
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.SayText">
+            <summary>
+            Occurs when the server uses the "say" command
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.SayText2">
+            <summary>
+            Occurs when a player uses the "say" command
+            </summary>
+        </member>
+        <member name="E:DemoInfo.DemoParser.RankUpdate">
+            <summary>
+            Occurs when the server display a player rank
+            </summary>
+        </member>
+        <member name="P:DemoInfo.DemoParser.Map">
+            <summary>
+            The mapname of the Demo. Only avaible after the header is parsed. 
+            Is a string like "de_dust2".
+            </summary>
+            <value>The map.</value>
+        </member>
+        <member name="P:DemoInfo.DemoParser.Header">
+            <summary>
+            The header of the demo, containing some useful information. 
+            </summary>
+            <value>The header.</value>
+        </member>
+        <member name="P:DemoInfo.DemoParser.Participants">
+            <summary>
+            Gets the participants of this game
+            </summary>
+            <value>The participants.</value>
+        </member>
+        <member name="P:DemoInfo.DemoParser.PlayingParticipants">
+            <summary>
+            Gets all the participants of this game, that aren't spectating.
+            </summary>
+            <value>The playing participants.</value>
+        </member>
+        <member name="F:DemoInfo.DemoParser.BitStream">
+            <summary>
+            The stream of the demo - all the information go here
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoParser.SendTableParser">
+            <summary>
+            A parser for DataTables. This contains the ServerClasses and DataTables. 
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoParser.StringTables">
+            <summary>
+            A parser for DEM_STRINGTABLES-Packets
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoParser.equipmentMapping">
+            <summary>
+            This maps an ServerClass to an Equipment. 
+            Note that this is wrong for the CZ,M4A1 and USP-S, there is an additional fix for those
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoParser.PlayerInformations">
+            <summary>
+            Containing info about players, accessible by the entity-id
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoParser.RawPlayers">
+            <summary>
+            Contains information about the players, accessible by the userid. 
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoParser.Entities">
+            <summary>
+            All entities currently alive in the demo. 
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoParser.modelprecache">
+            <summary>
+            The modelprecache. With this we can tell which model an entity has.
+            Useful for finding out whetere a weapon is a P250 or a CZ
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoParser.stringTables">
+            <summary>
+            The string tables sent by the server. 
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:DemoInfo.DemoParser.weapons" -->
+        <member name="F:DemoInfo.DemoParser.bombsiteAIndex">
+            <summary>
+            The indicies of the bombsites - useful to find out
+            where the bomb is planted
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoParser.bombsiteBIndex">
+            <summary>
+            The indicies of the bombsites - useful to find out
+            where the bomb is planted
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoParser.ctID">
+            <summary>
+            The ID of the CT-Team
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoParser.tID">
+            <summary>
+            The ID of the terrorist team
+            </summary>
+        </member>
+        <member name="P:DemoInfo.DemoParser.CTScore">
+            <summary>
+            The Rounds the Counter-Terrorists have won at this point.
+            </summary>
+            <value>The CT score.</value>
+        </member>
+        <member name="P:DemoInfo.DemoParser.TScore">
+            <summary>
+            The Rounds the Terrorists have won at this point.
+            </summary>
+            <value>The T score.</value>
+        </member>
+        <member name="P:DemoInfo.DemoParser.CTClanName">
+            <summary>
+            The clan name of the Counter-Terrorists
+            </summary>
+            <value>The name of the CT clan.</value>
+        </member>
+        <member name="P:DemoInfo.DemoParser.TClanName">
+            <summary>
+            The clan name of the Terrorists
+            </summary>
+            <value>The name of the T clan.</value>
+        </member>
+        <member name="P:DemoInfo.DemoParser.CTFlag">
+            <summary>
+            The flag of the Counter-Terrorists
+            </summary>
+            <value>The flag of the CT clan.</value>
+        </member>
+        <member name="P:DemoInfo.DemoParser.TFlag">
+            <summary>
+            The flag of the Terrorists
+            </summary>
+            <value>The flag of the T clan.</value>
+        </member>
+        <member name="F:DemoInfo.DemoParser.GEH_Descriptors">
+            <summary>
+            And GameEvent is just sent with ID |--> Value, but we need Name |--> Value. 
+            Luckily these contain a map ID |--> Name.
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoParser.GEH_BlindPlayers">
+            <summary>
+            The blind players, so we can tell who was flashed by a flashbang.
+            previous blind implementation
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoParser.GEH_StartBurns">
+            <summary>
+            Holds inferno_startburn event args so they can be matched with player
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoParser.PreprocessedBaselines">
+            <summary>
+            The preprocessed baselines, useful to create entities fast
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoParser.instanceBaseline">
+            <summary>
+            The instance baselines. 
+            When a new edict is created one would need to send all the information twice. 
+            Since this is (was) expensive, valve sends an instancebaseline, which contains defaults
+            for all the properties. 
+            </summary>
+        </member>
+        <member name="P:DemoInfo.DemoParser.TickRate">
+            <summary>
+            The tickrate *of the demo* (16 for normal GOTV-demos)
+            </summary>
+            <value>The tick rate.</value>
+        </member>
+        <member name="P:DemoInfo.DemoParser.TickTime">
+            <summary>
+            How long a tick of the demo is in s^-1
+            </summary>
+            <value>The tick time.</value>
+        </member>
+        <member name="P:DemoInfo.DemoParser.ParsingProgess">
+            <summary>
+            Gets the parsing progess. 0 = beginning, ~1 = finished (it can actually be > 1, so be careful!)
+            </summary>
+            <value>The parsing progess.</value>
+        </member>
+        <member name="P:DemoInfo.DemoParser.CurrentTick">
+            <summary>
+            The current tick the parser has seen. So if it's a 16-tick demo, 
+            it will have 16 after one second. 
+            </summary>
+            <value>The current tick.</value>
+        </member>
+        <member name="P:DemoInfo.DemoParser.IngameTick">
+            <summary>
+            The current ingame-tick as reported by the demo-file. 
+            </summary>
+            <value>The current tick.</value>
+        </member>
+        <member name="P:DemoInfo.DemoParser.CurrentTime">
+            <summary>
+            How far we've advanced in the demo in seconds. 
+            </summary>
+            <value>The current time.</value>
+        </member>
+        <member name="F:DemoInfo.DemoParser.additionalInformations">
+            <summary>
+            This contains additional informations about each player, such as Kills, Deaths, etc. 
+            This is networked seperately from the player, so we need to cache it somewhere else.
+            </summary>
+        </member>
+        <member name="M:DemoInfo.DemoParser.#ctor(System.IO.Stream)">
+            <summary>
+            Initializes a new DemoParser. Right point if you want to start analyzing demos. 
+            Hint: ParseHeader() is propably what you want to look into next. 
+            </summary>
+            <param name="input">An input-stream.</param>
+        </member>
+        <member name="M:DemoInfo.DemoParser.ParseHeader">
+            <summary>
+            Parses the header (first few hundret bytes) of the demo. 
+            </summary>
+        </member>
+        <member name="M:DemoInfo.DemoParser.ParseToEnd">
+            <summary>
+            Parses this file until the end of the demo is reached. 
+            Useful if you have subscribed to events
+            </summary>
+        </member>
+        <member name="M:DemoInfo.DemoParser.ParseToEnd(System.Threading.CancellationToken)">
+            <summary>
+            Same as ParseToEnd() but accepts a CancellationToken to be able to cancel parsing
+            </summary>
+            <param name="token"></param>
+        </member>
+        <member name="M:DemoInfo.DemoParser.ParseNextTick">
+            <summary>
+            Parses the next tick of the demo.
+            </summary>
+            <returns><c>true</c>, if this wasn't the last tick, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:DemoInfo.DemoParser.ParseTick">
+            <summary>
+            Parses the tick internally
+            </summary>
+            <returns><c>true</c>, if tick was parsed, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:DemoInfo.DemoParser.ParseDemoPacket">
+            <summary>
+            Parses a DEM_Packet. 
+            </summary>
+        </member>
+        <member name="M:DemoInfo.DemoParser.BindEntites">
+            <summary>
+            Binds the events for entities. And Entity has many properties. 
+            You can subscribe to when an entity of a specific class is created, 
+            and then you can subscribe to updates of properties of this entity. 
+            This is a bit complex, but very fast. 
+            </summary>
+        </member>
+        <member name="M:DemoInfo.DemoParser.Dispose">
+            <summary>
+            Releases all resource used by the <see cref="T:DemoInfo.DemoParser"/> object. This must be called or evil things (memory leaks) happen. 
+            Sorry for that - I've debugged and I don't know why this is, but I can't fix it somehow. 
+            This is bad, I know. 
+            </summary>
+            <remarks>Call <see cref="M:DemoInfo.DemoParser.Dispose"/> when you are finished using the <see cref="T:DemoInfo.DemoParser"/>. The
+            <see cref="M:DemoInfo.DemoParser.Dispose"/> method leaves the <see cref="T:DemoInfo.DemoParser"/> in an unusable state. After calling
+            <see cref="M:DemoInfo.DemoParser.Dispose"/>, you must release all references to the <see cref="T:DemoInfo.DemoParser"/> so the garbage
+            collector can reclaim the memory that the <see cref="T:DemoInfo.DemoParser"/> was occupying.</remarks>
+        </member>
+        <member name="M:DemoInfo.DP.DemoPacketParser.ParsePacket(DemoInfo.IBitStream,DemoInfo.DemoParser)">
+            <summary>
+            Parses a demo-packet. 
+            </summary>
+            <param name="bitstream">Bitstream.</param>
+            <param name="demo">Demo.</param>
+        </member>
+        <member name="M:DemoInfo.DP.Entity.ApplyUpdate(DemoInfo.IBitStream)">
+            <summary>
+            Applies the update.
+            </summary>
+            <param name="reader">Reader.</param>
+        </member>
+        <member name="T:DemoInfo.DP.FastNetmessages.RankUpdate">
+            <summary>
+            FastNetMessage adaptation of CCSUsrMsg_ServerRankUpdate.RankUpdate protobuf message
+            </summary>
+        </member>
+        <member name="T:DemoInfo.DP.FastNetmessages.SayText">
+            <summary>
+            FastNetMessage adaptation of CCSUsrMsg_SayText protobuf message
+            </summary>
+        </member>
+        <member name="T:DemoInfo.DP.FastNetmessages.SayText2">
+            <summary>
+            FastNetMessage adaptation of CCSUsrMsg_SayText2 protobuf message
+            </summary>
+        </member>
+        <member name="T:DemoInfo.DP.FastNetmessages.ServerRankUpdate">
+            <summary>
+            FastNetMessage adaptation of CCSUsrMsg_ServerRankUpdate protobuf message
+            We don't raise this event but instead each RankUpdate events that it contains
+            </summary>
+        </member>
+        <member name="T:DemoInfo.DP.FastNetmessages.UserMessage">
+            <summary>
+            FastNetMessage adaptation of CSVCMsg_UserMessage protobuf message
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DP.FastNetmessages.UserMessage.MsgType">
+            <summary>
+            Correspond to User_Messages enum values
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DP.FastNetmessages.UserMessage.PassThrough">
+            <summary>
+            Don't what is it?
+            </summary>
+        </member>
+        <member name="T:DemoInfo.DP.Handler.GameEventHandler">
+            <summary>
+            This class manages all GameEvents for a demo-parser. 
+            </summary>
+        </member>
+        <member name="M:DemoInfo.DP.Handler.GameEventHandler.Apply(DemoInfo.GameEvent,DemoInfo.DemoParser)">
+            <summary>
+            Apply the specified rawEvent to the parser.
+            </summary>
+            <param name="rawEvent">The raw event.</param>
+            <param name="parser">The parser to mutate.</param>
+        </member>
+        <member name="M:DemoInfo.DP.Handler.PacketEntitesHandler.Apply(DemoInfo.PacketEntities,DemoInfo.IBitStream,DemoInfo.DemoParser)">
+            <summary>
+            Decodes the bytes in the packet-entites message. 
+            </summary>
+            <param name="packetEntities">Packet entities.</param>
+            <param name="reader">Reader.</param>
+            <param name="parser">Parser.</param>
+        </member>
+        <member name="M:DemoInfo.DP.Handler.PacketEntitesHandler.ReadEnterPVS(DemoInfo.IBitStream,System.Int32,DemoInfo.DemoParser)">
+            <summary>
+            Reads an update that occures when a new edict enters the PVS (potentially visible system)
+            </summary>
+            <returns>The new Entity.</returns>
+        </member>
+        <member name="F:DemoInfo.DT.SendPropertyFlags.Unsigned">
+            <summary>
+            Unsigned integer data.
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DT.SendPropertyFlags.Coord">
+            <summary>
+            If this is set, the float/vector is treated like a world coordinate. 
+            Note that the bit count is ignored in this case.
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DT.SendPropertyFlags.NoScale">
+            <summary>
+            For floating point, don't scale into range, just take value as is
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DT.SendPropertyFlags.RoundDown">
+            <summary>
+            For floating point, limit high value to range minus one bit unit
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DT.SendPropertyFlags.RoundUp">
+            <summary>
+             For floating point, limit low value to range minus one bit unit
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DT.SendPropertyFlags.Normal">
+            <summary>
+             If this is set, the vector is treated like a normal (only valid for vectors)
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DT.SendPropertyFlags.Exclude">
+            <summary>
+             This is an exclude prop (not excludED, but it points at another prop to be excluded).
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DT.SendPropertyFlags.XYZE">
+            <summary>
+             Use XYZ/Exponent encoding for vectors.
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DT.SendPropertyFlags.InsideArray">
+            <summary>
+             This tells us that the property is inside an array, so it shouldn't be put into the
+             flattened property list. Its array will point at it when it needs to.
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DT.SendPropertyFlags.ProxyAlwaysYes">
+            <summary>
+             Set for datatable props using one of the default datatable proxies like
+             SendProxy_DataTableToDataTable that always send the data to all clients.
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DT.SendPropertyFlags.IsVectorElement">
+            <summary>
+             Set automatically if SPROP_VECTORELEM is used.
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DT.SendPropertyFlags.Collapsible">
+            <summary>
+             Set automatically if it's a datatable with an offset of 0 that doesn't change the pointer
+             (ie: for all automatically-chained base classes).
+             In this case, it can get rid of this SendPropDataTable altogether and spare the
+             trouble of walking the hierarchy more than necessary.
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DT.SendPropertyFlags.CoordMp">
+            <summary>
+             Like SPROP_COORD, but special handling for multiplayer games
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DT.SendPropertyFlags.CoordMpLowPrecision">
+            <summary>
+            Like SPROP_COORD, but special handling for multiplayer games where the fractional component only gets a 3 bits instead of 5
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DT.SendPropertyFlags.CoordMpIntegral">
+            <summary>
+            SPROP_COORD_MP, but coordinates are rounded to integral boundaries
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DT.SendPropertyFlags.CellCoord">
+            <summary>
+            Like SPROP_COORD, but special encoding for cell coordinates that can't be negative, bit count indicate maximum value
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DT.SendPropertyFlags.CellCoordLowPrecision">
+            <summary>
+            Like SPROP_CELL_COORD, but special handling where the fractional component only gets a 3 bits instead of 5
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DT.SendPropertyFlags.CellCoordIntegral">
+            <summary>
+            SPROP_CELL_COORD, but coordinates are rounded to integral boundaries
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DT.SendPropertyFlags.ChangesOften">
+            <summary>
+             this is an often changed field, moved to head of sendtable so it gets a small index
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DT.SendPropertyFlags.VarInt">
+            <summary>
+            use var int encoded (google protobuf style), note you want to include SPROP_UNSIGNED if needed, its more efficient
+            </summary>
+        </member>
+        <member name="F:DemoInfo.RoundEndedEventArgs.Winner">
+            <summary>
+            The winning team. Spectate for everything that isn't CT or T. 
+            </summary>
+        </member>
+        <member name="P:DemoInfo.PlayerHurtEventArgs.Player">
+            <summary>
+            The hurt player
+            </summary>
+        </member>
+        <member name="P:DemoInfo.PlayerHurtEventArgs.Attacker">
+            <summary>
+            The attacking player
+            </summary>
+        </member>
+        <member name="P:DemoInfo.PlayerHurtEventArgs.Health">
+            <summary>
+            Remaining health points of the player
+            </summary>
+        </member>
+        <member name="P:DemoInfo.PlayerHurtEventArgs.Armor">
+            <summary>
+            Remaining armor points of the player
+            </summary>
+        </member>
+        <member name="P:DemoInfo.PlayerHurtEventArgs.Weapon">
+            <summary>
+            The Weapon used to attack. 
+            Note: This might be not the same as the raw event
+            we replace "hpk2000" with "usp-s" if the attacker
+            is currently holding it - this value is originally
+            networked "wrong". By using this property you always
+            get the "right" weapon
+            </summary>
+            <value>The weapon.</value>
+        </member>
+        <member name="P:DemoInfo.PlayerHurtEventArgs.WeaponString">
+            <summary>
+            The original "weapon"-value from the event. 
+            Might be wrong for USP, CZ and M4A1-S
+            </summary>
+            <value>The weapon string.</value>
+        </member>
+        <member name="P:DemoInfo.PlayerHurtEventArgs.HealthDamage">
+            <summary>
+            The damage done to the players health
+            </summary>
+        </member>
+        <member name="P:DemoInfo.PlayerHurtEventArgs.ArmorDamage">
+            <summary>
+            The damage done to the players armor
+            </summary>
+        </member>
+        <member name="P:DemoInfo.PlayerHurtEventArgs.Hitgroup">
+            <summary>
+            Where the Player was hit. 
+            </summary>
+            <value>The hitgroup.</value>
+        </member>
+        <member name="T:DemoInfo.SayTextEventArgs">
+            <summary>
+            Occurs when the server use the "say" command
+            I don't know the purpose of IsChat and IsChatAll because they are everytime false
+            </summary>
+        </member>
+        <member name="P:DemoInfo.SayTextEventArgs.EntityIndex">
+            <summary>
+            Should be everytime 0 as it's a message from the server
+            </summary>
+        </member>
+        <member name="P:DemoInfo.SayTextEventArgs.Text">
+            <summary>
+            Message sent by the server
+            </summary>
+        </member>
+        <member name="P:DemoInfo.SayTextEventArgs.IsChat">
+            <summary>
+            Everytime false as the message is public
+            </summary>
+        </member>
+        <member name="P:DemoInfo.SayTextEventArgs.IsChatAll">
+            <summary>
+            Everytime false as the message is public
+            </summary>
+        </member>
+        <member name="T:DemoInfo.SayText2EventArgs">
+            <summary>
+            Occurs when a player use the say command
+            Not sure about IsChat and IsChatAll, GOTV doesn't record chat team so this 2 bool are every time true
+            </summary>
+        </member>
+        <member name="P:DemoInfo.SayText2EventArgs.Sender">
+            <summary>
+            The player who sent the message
+            </summary>
+        </member>
+        <member name="P:DemoInfo.SayText2EventArgs.Text">
+            <summary>
+            The message sent
+            </summary>
+        </member>
+        <member name="P:DemoInfo.SayText2EventArgs.IsChat">
+            <summary>
+            Not sure about it, maybe it's to indicate say_team or say
+            </summary>
+        </member>
+        <member name="P:DemoInfo.SayText2EventArgs.IsChatAll">
+            <summary>
+            true if the message is for all players ?
+            </summary>
+        </member>
+        <member name="T:DemoInfo.RankUpdateEventArgs">
+            <summary>
+            Occurs when the server display a player rank
+            It occurs only with Valve demos, at the end of a Matchmaking.
+            So for a 5v5 match there will be 10 events trigerred
+            </summary>
+        </member>
+        <member name="P:DemoInfo.RankUpdateEventArgs.SteamId">
+            <summary>
+            Player's SteamID64
+            </summary>
+        </member>
+        <member name="P:DemoInfo.RankUpdateEventArgs.RankOld">
+            <summary>
+            Player's rank at the beginning of the match
+            </summary>
+        </member>
+        <member name="P:DemoInfo.RankUpdateEventArgs.RankNew">
+            <summary>
+            Player's rank the end of the match
+            </summary>
+        </member>
+        <member name="P:DemoInfo.RankUpdateEventArgs.WinCount">
+            <summary>
+            Number of win that the player have
+            </summary>
+        </member>
+        <member name="P:DemoInfo.RankUpdateEventArgs.RankChange">
+            <summary>
+            Number of rank the player win / lost between the beggining and the end of the match
+            </summary>
+        </member>
+        <member name="M:DemoInfo.Player.Copy">
+            <summary>
+            Copy this instance for multi-threading use. 
+            </summary>
+        </member>
+        <member name="T:DemoInfo.DemoHeader">
+            <summary>
+            A Demo header.
+            </summary>
+        </member>
+        <member name="T:DemoInfo.Vector">
+            <summary>
+            And Source-Engine Vector. 
+            </summary>
+        </member>
+        <member name="M:DemoInfo.Vector.Copy">
+            <summary>
+            Copy this instance. So if you want to permanently store the position of a player at a point in time, 
+            COPY it. 
+            </summary>
+        </member>
+        <member name="T:DemoInfo.QAngle">
+            <summary>
+            And Angle in the Source-Engine. Looks pretty much like a vector. 
+            </summary>
+        </member>
+        <member name="T:DemoInfo.Split">
+            <summary>
+            A split. 
+            </summary>
+        </member>
+        <member name="T:DemoInfo.PlayerInfo">
+            <summary>
+            A playerinfo, based on playerinfo_t by Volvo. 
+            </summary>
+        </member>
+        <member name="P:DemoInfo.PlayerInfo.Version">
+            version for future compatibility
+        </member>
+        <member name="T:DemoInfo.BoundingBoxInformation">
+            <summary>
+            This contains information about Collideables (specific edicts), mostly used for bombsites. 
+            </summary>
+        </member>
+        <member name="M:DemoInfo.BoundingBoxInformation.Contains(DemoInfo.Vector)">
+            <summary>
+            Checks wheter a point lies within the BoundingBox. 
+            </summary>
+            <param name="point">The point to check</param>
+        </member>
+        <member name="T:DemoInfo.DemoCommand">
+            <summary>
+            The demo-commands as given by Valve.
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoCommand.Signon">
+            <summary>
+            it's a startup message, process as fast as possible
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:DemoInfo.DemoCommand.Packet" -->
+        <member name="F:DemoInfo.DemoCommand.Synctick">
+            <summary>
+            sync client clock to demo tick
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoCommand.ConsoleCommand">
+            <summary>
+            Console Command
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoCommand.UserCommand">
+            <summary>
+            user input command
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoCommand.DataTables">
+            <summary>
+             network data tables
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoCommand.Stop">
+            <summary>
+            end of time.
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoCommand.CustomData">
+            <summary>
+            a blob of binary data understood by a callback function
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoCommand.LastCommand">
+            <summary>
+            Last Command
+            </summary>
+        </member>
+        <member name="F:DemoInfo.DemoCommand.FirstCommand">
+            <summary>
+            First Command
+            </summary>
+        </member>
+        <member name="F:DemoInfo.RoundEndReason.TargetBombed">
+            <summary>
+            Target Successfully Bombed!
+            </summary>
+        </member>
+        <member name="F:DemoInfo.RoundEndReason.VIPEscaped">
+            <summary>
+            The VIP has escaped.
+            </summary>
+        </member>
+        <member name="F:DemoInfo.RoundEndReason.VIPKilled">
+            <summary>
+            VIP has been assassinated
+            </summary>
+        </member>
+        <member name="F:DemoInfo.RoundEndReason.TerroristsEscaped">
+            <summary>
+            The terrorists have escaped
+            </summary>
+        </member>
+        <member name="F:DemoInfo.RoundEndReason.CTStoppedEscape">
+            <summary>
+            The CTs have prevented most of the terrorists from escaping!
+            </summary>
+        </member>
+        <member name="F:DemoInfo.RoundEndReason.TerroristsStopped">
+            <summary>
+            Escaping terrorists have all been neutralized
+            </summary>
+        </member>
+        <member name="F:DemoInfo.RoundEndReason.BombDefused">
+            <summary>
+            The bomb has been defused!
+            </summary>
+        </member>
+        <member name="F:DemoInfo.RoundEndReason.CTWin">
+            <summary>
+            Counter-Terrorists Win!
+            </summary>
+        </member>
+        <member name="F:DemoInfo.RoundEndReason.TerroristWin">
+            <summary>
+            Terrorists Win! 
+            </summary>
+        </member>
+        <member name="F:DemoInfo.RoundEndReason.Draw">
+            <summary>
+            Round Draw!
+            </summary>
+        </member>
+        <member name="F:DemoInfo.RoundEndReason.HostagesRescued">
+            <summary>
+            All Hostages have been rescued
+            </summary>
+        </member>
+        <member name="F:DemoInfo.RoundEndReason.TargetSaved">
+            <summary>
+            Target has been saved! 
+            </summary>
+        </member>
+        <member name="F:DemoInfo.RoundEndReason.HostagesNotRescued">
+            <summary>
+            Hostages have not been rescued!
+            </summary>
+        </member>
+        <member name="F:DemoInfo.RoundEndReason.TerroristsNotEscaped">
+            <summary>
+            Terrorists have not escaped!
+            </summary>
+        </member>
+        <member name="F:DemoInfo.RoundEndReason.VIPNotEscaped">
+            <summary>
+            VIP has not escaped! 
+            </summary>
+        </member>
+        <member name="F:DemoInfo.RoundEndReason.GameStart">
+            <summary>
+            Game Commencing! 
+            </summary>
+        </member>
+        <member name="F:DemoInfo.RoundEndReason.TerroristsSurrender">
+            <summary>
+            Terrorists Surrender
+            </summary>
+        </member>
+        <member name="F:DemoInfo.RoundEndReason.CTSurrender">
+            <summary>
+            CTs Surrender
+            </summary>
+        </member>
+        <member name="M:DemoInfo.BitStreamUtil.Create(System.IO.Stream)">
+            <summary>
+            Creates an instance of the preferred <see cref="T:DemoInfo.IBitStream"/> implementation for streams.
+            </summary>
+        </member>
+        <member name="M:DemoInfo.BitStreamUtil.Create(System.Byte[])">
+            <summary>
+            Creates an instance of the preferred <see cref="T:DemoInfo.IBitStream"/> implementation for byte arrays.
+            </summary>
+        </member>
+        <member name="M:DemoInfo.IBitStream.BeginChunk(System.Int32)">
+            <summary>
+            Begins a chunk.
+            </summary>
+            <param name="bits">The chunk's length in bits.</param>
+            <remarks>
+            You must not try to read beyond the end of a chunk. Doing
+            so may corrupt the bitstream's state, leading to
+            implementation-defined behavior of all methods except
+            <c>Dispose</c>.
+            </remarks>
+        </member>
+        <member name="M:DemoInfo.IBitStream.EndChunk">
+            <summary>
+            Ends a chunk.
+            </summary>
+            <remarks>
+            If there's no current chunk, this method <c>may</c> throw
+            and leave the bitstream in an undefined state that can
+            be cleaned up safely by disposing it.
+            Alternatively, it may also return normally if it didn't
+            corrupt or otherwise modify the bitstream's state.
+            </remarks>
+        </member>
+        <member name="P:DemoInfo.IBitStream.ChunkFinished">
+            <summary>
+            Gets a value indicating whether the current chunk was fully read.
+            </summary>
+            <value><c>true</c> if chunk is finished; otherwise, <c>false</c>.</value>
+            <remarks>
+            The return value is undefined if there's no current chunk.
+            </remarks>
+        </member>
+    </members>
+</doc>
